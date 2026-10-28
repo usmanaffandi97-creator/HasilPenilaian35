@@ -1071,7 +1071,7 @@
     // ========================================================
     // URL Web App Google Apps Script jika ingin di-hardcode langsung.
     // Jika kosong, sistem membaca otomatis dari localStorage atau dialog "Hubungkan Spreadsheet".
-    const DEFAULT_GAS_API_URL = "";
+    const DEFAULT_GAS_API_URL = "https://script.google.com/macros/s/AKfycbzmUIJWda9UZvALCaA6U23bTU_abSC6NNFfRnUYJTyt7riG0x_WzfJqxwZW--Fg--jspA/exec";
 
     function getActiveGasUrl() {
       return (window.GAS_API_URL || localStorage.getItem("SMP_GAS_API_URL") || DEFAULT_GAS_API_URL || "").trim();
