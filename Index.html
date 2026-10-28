@@ -1,0 +1,3096 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>LEMBAR CAPAIAN HASIL ASESMEN PESERTA DIDIK - SMP</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              800: '#3730a3',
+              900: '#312e81',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .fade-in {
+      animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .bg-checkered {
+      background-image: linear-gradient(45deg, #f1f5f9 25%, transparent 25%), 
+                        linear-gradient(-45deg, #f1f5f9 25%, transparent 25%), 
+                        linear-gradient(45deg, transparent 75%, #f1f5f9 75%), 
+                        linear-gradient(-45deg, transparent 75%, #f1f5f9 75%);
+      background-size: 16px 16px;
+      background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- ==================== HEADER & NAVBAR UTAMA ==================== -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-xs">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo & Nama Sekolah -->
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('siswa')">
+        <div class="flex items-center space-x-1.5">
+          <!-- Logo Pemkot Mini -->
+          <div id="navLogoPemkotWrap" class="w-9 h-9 rounded-lg bg-slate-100 flex items-center justify-center overflow-hidden border border-slate-200">
+            <img id="navLogoPemkot" src="" alt="Pemkot" class="w-full h-full object-contain hidden">
+            <svg id="navLogoPemkotPlaceholder" class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+            </svg>
+          </div>
+          <!-- Logo Sekolah Mini -->
+          <div id="navLogoSekolahWrap" class="w-9 h-9 rounded-lg bg-brand-50 flex items-center justify-center overflow-hidden border border-brand-200 text-brand-600">
+            <img id="navLogoSekolah" src="" alt="Sekolah" class="w-full h-full object-contain hidden">
+            <svg id="navLogoSekolahPlaceholder" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+            </svg>
+          </div>
+        </div>
+        <div>
+          <h1 id="headerSchoolName" class="font-bold text-slate-900 text-sm sm:text-base leading-tight tracking-tight">SMP NEGERI 1 HARAPAN BANGSA</h1>
+          <p id="headerSubText" class="text-xs text-slate-500 font-medium">Portal Capaian Hasil Belajar Siswa</p>
+        </div>
+      </div>
+
+      <!-- Navigasi Kanan: HANYA SATU AREA KONTROL ADMIN (TANPA TOMBOL GANDA) -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- Tombol Kembali ke Portal -->
+        <a id="btnKembaliPortalNilai" href="#" class="hidden inline-flex items-center gap-1.5 px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg text-brand-700 bg-brand-50 hover:bg-brand-100 transition border border-brand-200">
+          <svg class="w-4 h-4 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          <span>Ke Portal</span>
+        </a>
+
+        <div id="envIndicator" onclick="handleEnvIndicatorClick()" class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 transition">
+          <span id="envDot" class="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse"></span>
+          <span id="envText">Aktif (600+ Siswa)</span>
+        </div>
+
+        <div id="navActionArea">
+          <!-- Tombol login default (bila belum login) -->
+          <button id="btnOpenLoginModal" onclick="openLoginModal()" class="inline-flex items-center px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition border border-slate-200 shadow-2xs">
+            <svg class="w-4 h-4 mr-1.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            Akses Guru/Admin
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="flex-grow max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
+    <!-- ========================================================
+         VIEW 1: SISWA (PENCARIAN & LEMBAR DIGITAL RESMI)
+         ======================================================== -->
+    <div id="viewSiswa" class="fade-in space-y-6">
+      
+      <!-- Hero Banner Siswa -->
+      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-brand-700 via-indigo-600 to-blue-600 text-white p-6 sm:p-8 shadow-md">
+        <div class="relative z-10 max-w-2xl">
+          <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-md text-white mb-2">
+            Tahun Ajaran <span id="heroTahunAjaran">2025/2026</span> • Semester <span id="heroSemester">Ganjil</span>
+          </span>
+          <h2 class="text-xl sm:text-3xl font-extrabold tracking-tight leading-tight">
+            Portal Capaian Hasil Asesmen Peserta Didik
+          </h2>
+          <p class="mt-1 text-indigo-100 text-xs sm:text-sm leading-relaxed">
+            Sistem informasi resmi capaian hasil asesmen tingkat SMP. Masukkan 10 digit NISN untuk melihat capaian hasil asesmen dan pengesahan resmi sekolah.
+          </p>
+        </div>
+      </div>
+
+      <!-- Search Card NISN -->
+      <div class="max-w-2xl mx-auto -mt-4 sm:-mt-6 relative z-20">
+        <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-4 sm:p-6">
+          <label for="nisnInput" class="block text-xs sm:text-sm font-semibold text-slate-700 mb-2">
+            Masukkan Nomor Induk Siswa Nasional (NISN)
+          </label>
+          <div class="flex flex-col sm:flex-row gap-2.5">
+            <div class="relative flex-grow">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"/>
+                </svg>
+              </div>
+              <input 
+                type="text" 
+                id="nisnInput" 
+                inputmode="numeric"
+                maxlength="15"
+                placeholder="Contoh: 0081234567" 
+                onkeypress="if(event.key === 'Enter') handleSearchStudent()"
+                class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-slate-800 placeholder-slate-400 font-medium focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white transition text-base tracking-wider"
+              >
+            </div>
+            <button 
+              id="btnCariNisn"
+              onclick="handleSearchStudent()" 
+              class="px-6 py-3 bg-brand-600 hover:bg-brand-700 active:bg-brand-800 text-white font-semibold rounded-xl transition shadow-md shadow-brand-600/25 flex items-center justify-center space-x-2 shrink-0"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+              </svg>
+              <span>Periksa Nilai</span>
+            </button>
+          </div>
+
+          <!-- Tombol Contoh Cepat -->
+          <div class="mt-3 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between text-xs text-slate-500 gap-2">
+            <span>Uji coba cepat:</span>
+            <div class="flex gap-2">
+              <button onclick="setSampleNisn('0081234567')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md font-mono transition font-medium">
+                0081234567 (Ahmad)
+              </button>
+              <button onclick="setSampleNisn('0082345678')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-md font-mono transition font-medium">
+                0082345678 (Siti)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div id="studentLoading" class="hidden text-center py-10">
+        <div class="inline-flex items-center justify-center p-4 bg-white rounded-2xl shadow-md border border-slate-100 space-x-3">
+          <svg class="animate-spin h-6 w-6 text-brand-600" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span class="text-slate-700 font-semibold text-sm">Mengambil data nilai dari database...</span>
+        </div>
+      </div>
+
+      <!-- Error / Not Found State -->
+      <div id="studentError" class="hidden max-w-2xl mx-auto fade-in">
+        <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-amber-900 flex items-start space-x-3">
+          <div class="shrink-0 p-1 bg-amber-100 text-amber-700 rounded-lg">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+          </div>
+          <div>
+            <h4 class="font-bold text-sm">Pemberitahuan</h4>
+            <p id="studentErrorMessage" class="text-xs sm:text-sm text-amber-800 mt-0.5"></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========================================================
+           LEMBAR CAPAIAN HASIL ULANGAN PESERTA DIDIK (RESMI)
+           KOP SURAT:
+           - KIRI: LOGO PEMKOT
+           - TENGAH: IDENTITAS SEKOLAH
+           - KANAN: LOGO SEKOLAH
+           ======================================================== -->
+      <div id="studentResultContainer" class="hidden space-y-4 fade-in">
+        
+        <!-- Status Bar -->
+        <div class="flex items-center justify-between text-xs sm:text-sm">
+          <div class="flex items-center space-x-2 text-slate-500">
+            <span>Status Capaian Belajar:</span>
+            <span id="badgeStatusSiswa" class="px-2.5 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 text-xs">Aktif</span>
+          </div>
+          <button onclick="clearSearch()" class="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-600 rounded-xl text-xs font-semibold border border-slate-200 transition">
+            Cari NISN Lain
+          </button>
+        </div>
+
+        <!-- LEMBAR DIGITAL RESMI -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-3.5 sm:p-6 md:p-8 space-y-4 sm:space-y-6 overflow-hidden">
+          
+          <!-- ========================================================
+               KOP SURAT RESMI TIGA KOLOM SIMETRIS:
+               KIRI: Logo Pemkot | TENGAH: Identitas Sekolah | KANAN: Logo Sekolah
+               ======================================================== -->
+          <div class="border-b-2 border-slate-900 pb-3 mb-4">
+            <div class="flex items-center justify-between gap-2 sm:gap-6">
+              
+              <!-- 1. SEBELAH KIRI HALAMAN: LOGO PEMKOT -->
+              <div class="w-12 h-12 sm:w-20 sm:h-20 md:w-24 md:h-24 shrink-0 flex items-center justify-center p-1 bg-slate-50 border border-slate-200 rounded-xl overflow-hidden">
+                <img id="kopLogoPemkot" src="" alt="Logo Pemkot" class="w-full h-full object-contain hidden">
+                <div id="kopLogoPemkotPh" class="text-center text-slate-400">
+                  <svg class="w-6 h-6 sm:w-10 sm:h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                  </svg>
+                  <span class="text-[7px] sm:text-[10px] block font-bold leading-tight mt-0.5 uppercase">Pemkot</span>
+                </div>
+              </div>
+
+              <!-- 2. DI TENGAH: IDENTITAS SEKOLAH -->
+              <div class="text-center flex-grow px-1 sm:px-2">
+                <h4 id="kopPemda" class="text-[10px] sm:text-xs md:text-sm font-bold tracking-wider uppercase text-slate-700 leading-tight">
+                  PEMERINTAH DAERAH / DINAS PENDIDIKAN
+                </h4>
+                <h2 id="kopNamaSekolah" class="text-xs sm:text-lg md:text-2xl font-black uppercase tracking-tight text-slate-900 mt-0.5 leading-tight">
+                  SMP NEGERI 1 HARAPAN BANGSA
+                </h2>
+                <p id="kopAlamatSekolah" class="text-[9px] sm:text-xs text-slate-600 mt-0.5 sm:mt-1 max-w-xl mx-auto leading-relaxed">
+                  Jl. Pendidikan No. 45, Kota Harapan | Telp: (021) 555-1234
+                </p>
+              </div>
+
+              <!-- 3. SEBELAH KANAN HALAMAN: LOGO SEKOLAH -->
+              <div class="w-12 h-12 sm:w-20 sm:h-20 md:w-24 md:h-24 shrink-0 flex items-center justify-center p-1 bg-brand-50 border border-brand-200 rounded-xl overflow-hidden">
+                <img id="kopLogoSekolah" src="" alt="Logo Sekolah" class="w-full h-full object-contain hidden">
+                <div id="kopLogoSekolahPh" class="text-center text-brand-600">
+                  <svg class="w-6 h-6 sm:w-10 sm:h-10 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 14l9-5-9-5-9 5 9 5z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+                  </svg>
+                  <span class="text-[7px] sm:text-[10px] block font-bold leading-tight mt-0.5 uppercase">Sekolah</span>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Judul Dokumen Resmi Lembar Capaian -->
+            <div class="mt-2.5 sm:mt-3 pt-2 sm:pt-2.5 border-t border-slate-300 text-center">
+              <h3 class="text-xs sm:text-sm md:text-base font-extrabold text-slate-900 uppercase tracking-wider underline">
+                LEMBAR CAPAIAN HASIL ASESMEN PESERTA DIDIK
+              </h3>
+            </div>
+          </div>
+
+          <!-- BIODATA SISWA -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 bg-slate-50 p-3 sm:p-4 rounded-xl border border-slate-200 text-xs sm:text-sm">
+            <div class="space-y-1.5">
+              <div class="flex items-baseline">
+                <span class="w-28 sm:w-32 shrink-0 text-slate-500 font-medium">Nama Siswa</span>
+                <span class="font-bold text-slate-900 break-words">: <span id="resNamaSiswa">-</span></span>
+              </div>
+              <div class="flex items-baseline">
+                <span class="w-28 sm:w-32 shrink-0 text-slate-500 font-medium">NISN</span>
+                <span class="font-mono font-bold text-slate-800">: <span id="resNisn">-</span></span>
+              </div>
+              <div class="flex items-baseline">
+                <span class="w-28 sm:w-32 shrink-0 text-slate-500 font-medium">Kelas</span>
+                <span class="font-bold text-slate-800">: <span id="resKelas">-</span></span>
+              </div>
+            </div>
+            <div class="space-y-1.5">
+              <div class="flex items-baseline">
+                <span class="w-28 sm:w-36 shrink-0 text-slate-500 font-medium">Wali Kelas</span>
+                <span class="font-semibold text-slate-800 break-words">: <span id="resWaliKelas">-</span></span>
+              </div>
+              <div class="flex items-baseline">
+                <span class="w-28 sm:w-36 shrink-0 text-slate-500 font-medium">Tahun Ajaran</span>
+                <span class="font-semibold text-slate-800">: <span id="resTahunAjaran">-</span></span>
+              </div>
+              <div class="flex items-baseline">
+                <span class="w-28 sm:w-36 shrink-0 text-slate-500 font-medium">Semester / Asesmen</span>
+                <span class="font-semibold text-slate-800 break-words">: <span id="resSemester">-</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- SUMMARY STATS RINGKAS -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+            <div class="bg-indigo-50/70 border border-indigo-100 rounded-xl p-2.5 sm:p-3 text-center">
+              <div class="text-[10px] sm:text-[11px] font-bold text-indigo-700 uppercase tracking-wider">Rata-Rata Siswa</div>
+              <div id="statRataRata" class="text-xl sm:text-2xl md:text-3xl font-black text-indigo-950 mt-1">0.0</div>
+            </div>
+            <div class="bg-emerald-50/70 border border-emerald-100 rounded-xl p-2.5 sm:p-3 text-center">
+              <div class="text-[10px] sm:text-[11px] font-bold text-emerald-700 uppercase tracking-wider">Rata-Rata Sekolah</div>
+              <div id="statRataRataSekolah" class="text-xl sm:text-2xl md:text-3xl font-black text-emerald-950 mt-1">0.0</div>
+            </div>
+            <div class="bg-sky-50/70 border border-sky-100 rounded-xl p-2.5 sm:p-3 text-center">
+              <div class="text-[10px] sm:text-[11px] font-bold text-sky-700 uppercase tracking-wider">Nilai Tertinggi</div>
+              <div id="statTertinggi" class="text-xl sm:text-2xl md:text-3xl font-black text-sky-950 mt-1">0</div>
+            </div>
+            <div class="bg-amber-50/70 border border-amber-100 rounded-xl p-2.5 sm:p-3 text-center">
+              <div class="text-[10px] sm:text-[11px] font-bold text-amber-700 uppercase tracking-wider">Jumlah Mapel</div>
+              <div id="statJumlahMapel" class="text-xl sm:text-2xl md:text-3xl font-black text-amber-950 mt-1">0</div>
+            </div>
+          </div>
+
+          <!-- TABEL RINCIAN NILAI ASESMEN SISWA -->
+          <div class="overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-left text-xs sm:text-sm">
+              <thead class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200 uppercase tracking-wider text-[10px] sm:text-[11px]">
+                <tr>
+                  <th class="py-2.5 sm:py-3 px-2 sm:px-3 w-8 sm:w-12 text-center">No</th>
+                  <th class="py-2.5 sm:py-3 px-2.5 sm:px-4">Mata Pelajaran</th>
+                  <th class="py-2.5 sm:py-3 px-2 sm:px-4 text-center whitespace-nowrap">
+                    <span class="hidden sm:inline">Nilai Asesmen Siswa</span>
+                    <span class="sm:hidden">Nilai Siswa</span>
+                  </th>
+                  <th class="py-2.5 sm:py-3 px-2 sm:px-4 text-center">
+                    <span class="hidden sm:inline">Rata-Rata Nilai Mapel Satu Jenjang</span>
+                    <span class="sm:hidden">Rata Jenjang</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody id="studentGradesTableBody" class="divide-y divide-slate-200 bg-white">
+                <!-- Data Nilai Asesmen Siswa -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- ========================================================
+               AREA PENGESAHAN DENGAN TANDA TANGAN KEPALA SEKOLAH (DIPERBESAR)
+               ======================================================== -->
+          <div class="pt-6 border-t border-slate-200 flex justify-center sm:justify-end">
+            <div class="w-full max-w-xs sm:max-w-sm sm:w-88 text-center text-xs sm:text-sm relative">
+              <p id="ttdKotaTanggal" class="font-medium text-slate-600">Jakarta, 18 Desember 2025</p>
+              <p class="font-bold text-slate-800 mt-0.5">Kepala Sekolah,</p>
+              
+              <!-- Container Tanda Tangan Digital Diperbesar -->
+              <div class="relative h-28 sm:h-36 my-2 flex items-center justify-center">
+                <!-- TTD Kepala Sekolah (Ukuran Besar & Jelas) -->
+                <div class="relative z-10 h-28 sm:h-36 w-56 sm:w-72 flex items-center justify-center">
+                  <img id="imgTtdKepsek" src="" alt="TTD Kepala Sekolah" class="max-h-full max-w-full object-contain hidden transform scale-115 sm:scale-125">
+                  <div id="imgTtdKepsekPlaceholder" class="h-full w-full border-b-2 border-dashed border-slate-400 flex items-center justify-center text-xs text-slate-400 italic">
+                    (Tanda Tangan Digital)
+                  </div>
+                </div>
+              </div>
+
+              <p id="ttdKepalaSekolah" class="font-extrabold text-slate-900 underline text-sm sm:text-base tracking-tight">Drs. H. Mulyadi, M.Pd.</p>
+              <p id="ttdNipKepala" class="text-[11px] sm:text-xs text-slate-500 font-mono mt-0.5">NIP. 19720315 199802 1 004</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ========================================================
+         VIEW 2: ADMIN PANEL
+         ======================================================== -->
+    <div id="viewAdmin" class="hidden fade-in space-y-6">
+
+      <!-- Admin Top Bar: HANYA TOMBOL SEGARKAN (TIDAK ADA TOMBOL KELUAR GANDA) -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-200 gap-3">
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="p-1.5 rounded-lg bg-brand-100 text-brand-700">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+              </svg>
+            </span>
+            <h2 class="text-xl sm:text-2xl font-bold text-slate-900">Panel Pengelola Guru / Admin</h2>
+          </div>
+          <p class="text-xs sm:text-sm text-slate-500 mt-0.5">Kelola data siswa, entri nilai ulangan, logo, stempel, dan tanda tangan digital.</p>
+        </div>
+
+        <div class="flex items-center space-x-2">
+          <button onclick="loadAdminData()" class="px-3.5 py-2 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl text-xs sm:text-sm font-semibold transition flex items-center space-x-1.5 shadow-2xs">
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+            <span>Segarkan Data</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Overview Stats Cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+          <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Siswa</span>
+          <div id="adminStatTotalSiswa" class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">0</div>
+          <span class="text-[11px] text-slate-400">Terdaftar di sistem</span>
+        </div>
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+          <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Total Nilai</span>
+          <div id="adminStatTotalNilai" class="text-2xl sm:text-3xl font-extrabold text-brand-600 mt-1">0</div>
+          <span class="text-[11px] text-slate-400">Data nilai ulangan</span>
+        </div>
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+          <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Rata-Rata Sekolah</span>
+          <div id="adminStatRataSekolah" class="text-2xl sm:text-3xl font-extrabold text-emerald-600 mt-1">0</div>
+          <span class="text-[11px] text-slate-400">Dari seluruh ujian</span>
+        </div>
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs">
+          <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Tahun & Semester</span>
+          <div id="adminStatSemester" class="text-base sm:text-lg font-bold text-slate-800 mt-1 truncate">2025/2026</div>
+          <span id="adminStatJenisUlangan" class="text-[11px] text-slate-500">PAS</span>
+        </div>
+      </div>
+
+      <!-- Admin Tabs Navigation -->
+      <div class="border-b border-slate-200 flex space-x-2 sm:space-x-4 overflow-x-auto text-xs sm:text-sm font-semibold">
+        <button id="tabBtnNilai" onclick="switchAdminTab('nilai')" class="py-3 px-3 sm:px-4 border-b-2 border-brand-600 text-brand-600 transition whitespace-nowrap">
+          Kelola Nilai Ulangan
+        </button>
+        <button id="tabBtnSiswa" onclick="switchAdminTab('siswa')" class="py-3 px-3 sm:px-4 border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition whitespace-nowrap">
+          Kelola Data Siswa
+        </button>
+        <button id="tabBtnBatch" onclick="switchAdminTab('batch')" class="py-3 px-3 sm:px-4 border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition whitespace-nowrap font-medium">
+          📋 Input Leger &amp; Massal
+        </button>
+        <button id="tabBtnMedia" onclick="switchAdminTab('media')" class="py-3 px-3 sm:px-4 border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition whitespace-nowrap">
+          🖼️ Logo &amp; Tanda Tangan
+        </button>
+        <button id="tabBtnConfig" onclick="switchAdminTab('config')" class="py-3 px-3 sm:px-4 border-b-2 border-transparent text-slate-500 hover:text-slate-800 transition whitespace-nowrap">
+          Pengaturan Sekolah & Akun
+        </button>
+      </div>
+
+      <!-- TAB 1: KELOLA NILAI -->
+      <div id="adminTabNilai" class="space-y-4">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+            <input 
+              type="text" 
+              id="searchNilaiAdmin" 
+              placeholder="Cari NISN, nama, mapel..." 
+              oninput="renderAdminGradesTable()"
+              class="px-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 w-full sm:w-60"
+            >
+            <select id="filterKelasNilai" onchange="renderAdminGradesTable()" class="px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none">
+              <option value="">Semua Kelas</option>
+            </select>
+          </div>
+          <button onclick="openModalGrade()" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs sm:text-sm font-semibold shadow-xs flex items-center space-x-1.5 transition w-full md:w-auto justify-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            <span>Tambah Nilai Baru</span>
+          </button>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+          <div class="overflow-x-auto max-h-[500px]">
+            <table class="w-full text-left text-xs sm:text-sm">
+              <thead class="bg-slate-50 text-slate-700 font-bold border-b border-slate-200 sticky top-0 uppercase tracking-wider text-[11px]">
+                <tr>
+                  <th class="py-3 px-3">NISN</th>
+                  <th class="py-3 px-3">Nama Siswa</th>
+                  <th class="py-3 px-3">Kelas</th>
+                  <th class="py-3 px-3">Mata Pelajaran</th>
+                  <th class="py-3 px-3 text-center">Nilai Asesmen</th>
+                  <th class="py-3 px-3 text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="adminGradesTableBody" class="divide-y divide-slate-100">
+                <!-- Data Nilai -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2: KELOLA SISWA -->
+      <div id="adminTabSiswa" class="hidden space-y-4">
+        <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-xs flex flex-col md:flex-row items-center justify-between gap-3">
+          <div class="flex items-center gap-2 w-full md:w-auto">
+            <input 
+              type="text" 
+              id="searchSiswaAdmin" 
+              placeholder="Cari siswa (NISN/Nama)..." 
+              oninput="renderAdminStudentsTable()"
+              class="px-3.5 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-brand-500 w-full sm:w-64"
+            >
+          </div>
+          <button onclick="openModalStudent()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs sm:text-sm font-semibold shadow-xs flex items-center space-x-1.5 transition w-full md:w-auto justify-center">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+            <span>Tambah Siswa Baru</span>
+          </button>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
+          <div class="overflow-x-auto max-h-[500px]">
+            <table class="w-full text-left text-xs sm:text-sm">
+              <thead class="bg-slate-50 text-slate-700 font-bold border-b border-slate-200 sticky top-0 uppercase tracking-wider text-[11px]">
+                <tr>
+                  <th class="py-3 px-3">NISN</th>
+                  <th class="py-3 px-4">Nama Siswa</th>
+                  <th class="py-3 px-3">Kelas</th>
+                  <th class="py-3 px-3">JK</th>
+                  <th class="py-3 px-4">Wali Kelas</th>
+                  <th class="py-3 px-3">Status</th>
+                  <th class="py-3 px-3 text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="adminStudentsTableBody" class="divide-y divide-slate-100">
+                <!-- Data Siswa -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 3: INPUT NILAI MASSAL & LEGER KELAS -->
+      <div id="adminTabBatch" class="hidden space-y-6">
+
+        <!-- KARTU 1: COPY-PASTE TABEL EXCEL LEGER SEKELAS (METODE UTAMA TERCEPAT) -->
+        <div class="bg-white p-5 sm:p-6 rounded-2xl border-2 border-indigo-200/90 shadow-md shadow-indigo-100/50 space-y-5">
+          <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-slate-100 gap-3">
+            <div>
+              <div class="flex items-center space-x-2">
+                <span class="px-2.5 py-0.5 bg-gradient-to-r from-brand-600 to-indigo-600 text-white rounded-full font-bold text-[10px] uppercase tracking-wider shadow-xs">
+                  ⚡ Paling Mudah &amp; Cepat
+                </span>
+                <h3 class="font-bold text-slate-950 text-base sm:text-lg">
+                  Tempel (Paste) Tabel Excel Leger Sekelas
+                </h3>
+              </div>
+              <p class="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+                Buka file Excel nilai kelas Anda. Blok seluruh tabel dari baris judul (NISN, Nama, Kelas, dan seluruh Mapel), tekan <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-xs text-slate-800">Ctrl + C</kbd>, lalu klik kotak di bawah dan tekan <kbd class="px-1.5 py-0.5 bg-slate-100 border border-slate-300 rounded font-mono text-xs text-slate-800">Ctrl + V</kbd>.
+              </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 shrink-0">
+              <button type="button" onclick="fillSampleMatrixData()" class="px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 rounded-xl text-xs font-semibold transition flex items-center space-x-1.5">
+                <span>📋</span>
+                <span>Isi Contoh Format</span>
+              </button>
+              <button type="button" id="btnSyncLegerSheet" onclick="triggerSyncFromLeger()" class="px-3 py-1.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-xl text-xs font-semibold transition flex items-center space-x-1.5" title="Sinkronkan data yang sudah ada di sheet Leger_Nilai spreadsheet">
+                <span>🔄</span>
+                <span>Sinkronkan Sheet 'Leger_Nilai'</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Pilihan Jenis Asesmen & Textarea Paste -->
+          <div class="space-y-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="w-full sm:w-80">
+                <label class="block text-xs font-bold text-slate-700 mb-1">Jenis Asesmen yang Diterapkan:</label>
+                <input 
+                  type="text" 
+                  id="matrixJenisAsesmen" 
+                  value="Penilaian Akhir Semester (PAS)" 
+                  class="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none"
+                  placeholder="Misal: Penilaian Akhir Semester (PAS)"
+                >
+              </div>
+              <div class="flex items-center space-x-2 text-xs text-slate-500 self-end">
+                <span>💡 Format judul bebas: NISN, Nama, Kelas, disusul seluruh kolom nama mapel.</span>
+                <button type="button" onclick="clearMatrixInput()" class="text-rose-600 hover:text-rose-700 font-semibold underline ml-2">Bersihkan</button>
+              </div>
+            </div>
+
+            <div class="relative">
+              <textarea 
+                id="matrixPasteInput" 
+                rows="6" 
+                oninput="parseMatrixPaste()"
+                placeholder="Klik di sini lalu tekan Ctrl + V untuk menempelkan tabel Excel sekelas...&#10;&#10;Contoh Baris Judul:&#10;NISN&#9;Nama_Siswa&#9;Kelas&#9;PAI&#9;Pendidikan Pancasila&#9;Bahasa Indonesia&#9;Bahasa Inggris&#9;IPS&#9;Matematika&#9;IPA&#9;PJOK&#9;Seni Budaya&#9;Informatika&#9;Bahasa Jawa&#10;0081234567&#9;Ahmad Fauzan Pratama&#9;8-A&#9;88&#9;82&#9;85&#9;86&#9;84&#9;78&#9;80&#9;85&#9;83&#9;90&#9;88"
+                class="w-full p-3 sm:p-4 text-xs font-mono bg-slate-50 border-2 border-dashed border-slate-300 rounded-2xl focus:bg-white focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 focus:outline-none transition leading-relaxed"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- WIDGET PRATINJAU MATRIKS LANGSUNG -->
+          <div id="matrixPreviewContainer" class="hidden space-y-4 pt-3 border-t border-slate-100">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 gap-2">
+              <div class="flex items-center space-x-2.5">
+                <span class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0">✓</span>
+                <div>
+                  <span id="matrixDetectedSummary" class="font-bold text-emerald-900 text-xs sm:text-sm">
+                    Terdeteksi: 0 Siswa | 0 Mata Pelajaran | Total 0 Nilai Asesmen
+                  </span>
+                  <div id="matrixSubjectChips" class="flex flex-wrap gap-1.5 mt-1.5"></div>
+                </div>
+              </div>
+              <div class="shrink-0 text-right">
+                <button 
+                  type="button"
+                  id="btnSaveMatrix"
+                  onclick="submitMatrixGrades()" 
+                  class="w-full sm:w-auto px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md shadow-emerald-600/20 transition flex items-center justify-center space-x-2"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                  <span id="btnSaveMatrixText">Simpan Semua Nilai Kelas Ini</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto rounded-xl border border-slate-200 max-h-80 shadow-inner">
+              <table class="w-full text-left text-xs whitespace-nowrap">
+                <thead id="matrixTableHead" class="bg-slate-100 text-slate-800 font-bold sticky top-0 border-b border-slate-200 z-10">
+                </thead>
+                <tbody id="matrixTableBody" class="divide-y divide-slate-100 bg-white font-mono">
+                </tbody>
+              </table>
+            </div>
+
+            <p class="text-[11px] text-slate-500 italic">
+              * Siswa yang belum terdaftar di Data Siswa akan otomatis didaftarkan oleh sistem ke kelas yang tertera.
+            </p>
+          </div>
+        </div>
+
+        <!-- KARTU 2: PANDUAN PENGISIAN LANGSUNG DI GOOGLE SPREADSHEET (LEGER_NILAI) -->
+        <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-4 sm:p-5 text-xs sm:text-sm text-slate-800 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+          <div class="space-y-1">
+            <div class="flex items-center space-x-2">
+              <span class="px-2.5 py-0.5 bg-amber-600 text-white rounded-full font-bold text-[10px] uppercase tracking-wider">Metode Spreadsheet</span>
+              <h4 class="font-bold text-slate-900 text-sm">Pengisian Lewat Google Sheets (Sheet: Leger_Nilai)</h4>
+            </div>
+            <p class="text-slate-600 text-xs leading-relaxed">
+              Bapak/Ibu juga dapat langsung membuka Google Spreadsheet, klik sheet <b>Leger_Nilai</b>, lalu paste seluruh tabel nilai sekelas di sana. Setelah selesai, klik menu di atas spreadsheet: <b>🎓 Menu Nilai SMP &rarr; ⚡ Sinkronkan dari Leger_Nilai ke Sistem</b>.
+            </p>
+          </div>
+        </div>
+
+        <!-- KARTU 3: INPUT ALTERNATIF PER MATA PELAJARAN (FORMULIR TRADISIONAL) -->
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs space-y-4">
+          <div class="border-b border-slate-100 pb-3 flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-slate-900 text-sm sm:text-base">Metode Alternatif: Input Nilai Per Mata Pelajaran</h3>
+              <p class="text-xs text-slate-500">Pilih kelas dan mata pelajaran tertentu jika hanya ingin mengisi atau mengedit satu mapel saja.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Pilih Kelas</label>
+              <select id="batchSelectKelas" onchange="prepareBatchTable()" class="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl">
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Mata Pelajaran</label>
+              <input type="text" id="batchInputMapel" value="Matematika" class="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-slate-700 mb-1">Jenis Asesmen</label>
+              <input type="text" id="batchInputJenis" value="Penilaian Akhir Semester (PAS)" class="w-full px-3 py-2 text-xs sm:text-sm bg-slate-50 border border-slate-200 rounded-xl">
+            </div>
+          </div>
+
+          <div class="overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-left text-xs sm:text-sm">
+              <thead class="bg-slate-50 text-slate-700 font-bold border-b border-slate-200">
+                <tr>
+                  <th class="py-3 px-3 w-12 text-center">No</th>
+                  <th class="py-3 px-3">NISN</th>
+                  <th class="py-3 px-4">Nama Siswa</th>
+                  <th class="py-3 px-3 w-36 text-center">Nilai Asesmen (0-100)</th>
+                </tr>
+              </thead>
+              <tbody id="batchTableBody" class="divide-y divide-slate-100 bg-white">
+              </tbody>
+            </table>
+          </div>
+
+          <div class="flex justify-end pt-2">
+            <button type="button" onclick="saveBatchGrades()" class="px-6 py-2.5 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs sm:text-sm font-semibold shadow-md transition flex items-center space-x-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+              <span>Simpan Nilai Mapel Ini</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- TAB 4: KELOLA MEDIA (LOGO PEMKOT, SEKOLAH, TTD KEPALA SEKOLAH) -->
+      <div id="adminTabMedia" class="hidden space-y-6">
+        
+        <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-xs">
+          <div class="border-b border-slate-100 pb-3 mb-4">
+            <h3 class="font-bold text-slate-900 text-base">Kelola Logo & Tanda Tangan Digital</h3>
+            <p class="text-xs text-slate-500">
+              Unggah file gambar (PNG transparan disarankan). Sistem otomatis mengompres gambar dan memvalidasi keamanannya.
+            </p>
+          </div>
+
+          <!-- GRID 3 ITEM UTAMA: LOGO PEMDA/DINAS, LOGO SEKOLAH, TTD KEPSEK -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            
+            <!-- 1. LOGO PEMKOT / PEMDA (SEBELAH KIRI KOP SURAT) -->
+            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between space-y-3">
+              <div>
+                <span class="text-xs font-bold text-slate-800 uppercase tracking-wider block">1. Logo Pemkot / Dinas</span>
+                <span class="text-[11px] text-slate-500 block">Diletakkan di sebelah kiri kop surat</span>
+                
+                <div class="h-28 w-full bg-white rounded-lg border border-slate-200 flex items-center justify-center p-2 mt-2">
+                  <img id="adminPrevLogoPemkot" src="" alt="Logo Pemkot" class="max-h-full max-w-full object-contain hidden">
+                  <span id="adminPhLogoPemkot" class="text-xs text-slate-400 italic">Belum diupload</span>
+                </div>
+              </div>
+              
+              <div class="space-y-1.5">
+                <input type="file" id="fileLogoPemkot" accept="image/png,image/jpeg,image/webp" class="hidden" onchange="handleAdminFileUpload('LOGO_PEMKOT', this, 'Logo Pemkot', 'logo')">
+                <button onclick="document.getElementById('fileLogoPemkot').click()" class="w-full py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold rounded-lg transition">
+                  Pilih / Ganti Logo
+                </button>
+                <button onclick="handleAdminDeleteMedia('LOGO_PEMKOT')" class="w-full py-1 text-[11px] text-rose-600 hover:bg-rose-50 rounded font-semibold transition">
+                  Hapus Logo
+                </button>
+              </div>
+            </div>
+
+            <!-- 2. LOGO SEKOLAH (SEBELAH KANAN KOP SURAT) -->
+            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between space-y-3">
+              <div>
+                <span class="text-xs font-bold text-slate-800 uppercase tracking-wider block">2. Logo Sekolah</span>
+                <span class="text-[11px] text-slate-500 block">Diletakkan di sebelah kanan kop surat</span>
+                
+                <div class="h-28 w-full bg-white rounded-lg border border-slate-200 flex items-center justify-center p-2 mt-2">
+                  <img id="adminPrevLogoSekolah" src="" alt="Logo Sekolah" class="max-h-full max-w-full object-contain hidden">
+                  <span id="adminPhLogoSekolah" class="text-xs text-slate-400 italic">Belum diupload</span>
+                </div>
+              </div>
+              
+              <div class="space-y-1.5">
+                <input type="file" id="fileLogoSekolah" accept="image/png,image/jpeg,image/webp" class="hidden" onchange="handleAdminFileUpload('LOGO_SEKOLAH', this, 'Logo Sekolah', 'logo')">
+                <button onclick="document.getElementById('fileLogoSekolah').click()" class="w-full py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold rounded-lg transition">
+                  Pilih / Ganti Logo
+                </button>
+                <button onclick="handleAdminDeleteMedia('LOGO_SEKOLAH')" class="w-full py-1 text-[11px] text-rose-600 hover:bg-rose-50 rounded font-semibold transition">
+                  Hapus Logo
+                </button>
+              </div>
+            </div>
+
+            <!-- 3. TTD KEPALA SEKOLAH (PENGESAHAN DOKUMEN) -->
+            <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between space-y-3">
+              <div>
+                <span class="text-xs font-bold text-slate-800 uppercase tracking-wider block">3. TTD Kepala Sekolah</span>
+                <span class="text-[11px] text-slate-500 block">Tanda tangan digital resmi pada pengesahan dokumen</span>
+                
+                <div class="h-28 w-full bg-checkered rounded-lg border border-slate-200 flex items-center justify-center p-2 mt-2">
+                  <img id="adminPrevTtdKepsek" src="" alt="TTD Kepsek" class="max-h-full max-w-full object-contain hidden">
+                  <span id="adminPhTtdKepsek" class="text-xs text-slate-400 italic">Belum diupload (PNG)</span>
+                </div>
+              </div>
+              
+              <div class="space-y-1.5">
+                <input type="file" id="fileTtdKepsek" accept="image/png,image/jpeg,image/webp" class="hidden" onchange="handleAdminFileUpload('TTD_KEPSEK', this, 'TTD Kepala Sekolah', 'ttd')">
+                <button onclick="document.getElementById('fileTtdKepsek').click()" class="w-full py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold rounded-lg transition">
+                  Pilih / Ganti TTD Kepsek
+                </button>
+                <button onclick="handleAdminDeleteMedia('TTD_KEPSEK')" class="w-full py-1 text-[11px] text-rose-600 hover:bg-rose-50 rounded font-semibold transition">
+                  Hapus TTD
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- TAB 5: PENGATURAN SEKOLAH -->
+      <div id="adminTabConfig" class="hidden space-y-4">
+        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs max-w-3xl space-y-5">
+          <div class="border-b border-slate-100 pb-3">
+            <h3 class="font-bold text-slate-900 text-base">Identitas Sekolah & Pengaturan Aplikasi</h3>
+            <p class="text-xs text-slate-500">Informasi ini akan muncul pada kop resmi lembar capaian hasil belajar siswa.</p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+            <div class="sm:col-span-2">
+              <label class="block font-semibold text-slate-700 mb-1">Pemerintah Daerah / Dinas Pendidikan (Baris Atas Kop)</label>
+              <input type="text" id="cfgPemda" placeholder="PEMERINTAH DAERAH / DINAS PENDIDIKAN" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block font-semibold text-slate-700 mb-1">Nama Resmi Sekolah</label>
+              <input type="text" id="cfgNamaSekolah" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Alamat Sekolah</label>
+              <input type="text" id="cfgAlamatSekolah" placeholder="Jl. Pendidikan No. 45, Kota Harapan" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Nomor Telepon / Kontak Sekolah</label>
+              <input type="text" id="cfgTelpSekolah" placeholder="(021) 555-1234 atau 0812-3456-7890" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+              <span class="text-[11px] text-slate-400 mt-1 block">Tampil pada baris bawah kop surat (format teks aman tanpa error formula).</span>
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Tahun Ajaran</label>
+              <input type="text" id="cfgTahunAjaran" placeholder="2025/2026" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Semester</label>
+              <select id="cfgSemester" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+                <option value="Ganjil">Ganjil</option>
+                <option value="Genap">Genap</option>
+              </select>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block font-semibold text-slate-700 mb-1">Jenis Ulangan Aktif</label>
+              <input type="text" id="cfgJenisUlangan" placeholder="Penilaian Akhir Semester (PAS)" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Kota Penerbitan</label>
+              <input type="text" id="cfgKotaTerbit" placeholder="Jakarta" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Tanggal Rapor / Ulangan</label>
+              <input type="text" id="cfgTglRapor" placeholder="18 Desember 2025" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">Nama Kepala Sekolah</label>
+              <input type="text" id="cfgNamaKepsek" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-700 mb-1">NIP Kepala Sekolah</label>
+              <input type="text" id="cfgNipKepsek" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block font-semibold text-slate-700 mb-1">Pesan Pengumuman untuk Siswa</label>
+              <textarea id="cfgPesan" rows="2" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl"></textarea>
+            </div>
+            <div class="sm:col-span-2 pt-2 border-t border-slate-100">
+              <label class="block font-semibold text-rose-700 mb-1">Ubah Password Admin</label>
+              <input type="password" id="cfgPasswordAdmin" placeholder="Masukkan password baru (kosongkan jika tidak diubah)" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+            </div>
+            <div id="sectionGasConfigTab" class="sm:col-span-2 pt-2 border-t border-slate-100 hidden">
+              <label class="block font-semibold text-brand-700 mb-1">URL Web App Google Apps Script (Untuk Vercel / GitHub)</label>
+              <div class="flex flex-col sm:flex-row gap-2">
+                <input type="url" id="cfgGasApiUrl" placeholder="https://script.google.com/macros/s/AKfycb.../exec" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono">
+                <button type="button" onclick="saveGasConfigFromTab()" class="px-4 py-2 bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 rounded-xl text-xs font-semibold whitespace-nowrap transition">
+                  Simpan & Hubungkan
+                </button>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1">Kosongkan jika ingin kembali menggunakan data simulasi lokal.</p>
+            </div>
+          </div>
+
+          <div class="pt-2 flex justify-end">
+            <button onclick="saveSchoolConfig()" class="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 text-white rounded-xl text-xs sm:text-sm font-semibold shadow-md shadow-brand-600/20 transition">
+              Simpan Perubahan Pengaturan
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-white border-t border-slate-200 py-6 text-center text-xs text-slate-500 mt-auto">
+    <div class="max-w-6xl mx-auto px-4">
+      <p id="footerSchoolText">© 2026 SMP Negeri 1 Harapan Bangsa. Sistem Capaian Hasil Belajar Siswa.</p>
+      <p class="mt-1 text-[11px] text-slate-400">Terproteksi Cyber Security & Dioptimalkan untuk 600+ Siswa.</p>
+    </div>
+  </footer>
+
+  <!-- ==================== MODAL LOGIN ADMIN ==================== -->
+  <div id="modalLogin" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 space-y-4 fade-in">
+      <div class="flex items-center justify-between">
+        <h3 class="font-bold text-slate-900 text-lg">Masuk Sebagai Guru / Admin</h3>
+        <button onclick="closeLoginModal()" class="text-slate-400 hover:text-slate-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        Masukkan kata sandi admin. Dilengkapi sistem proteksi anti-brute force untuk keamanan data.
+      </p>
+      <div>
+        <label for="adminPassInput" class="block text-xs font-semibold text-slate-700 mb-1">Password Admin</label>
+        <input 
+          type="password" 
+          id="adminPassInput" 
+          placeholder="Password default: admin123" 
+          onkeypress="if(event.key === 'Enter') handleAdminLogin()"
+          class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
+        >
+        <p id="loginErrorText" class="hidden text-rose-600 text-xs font-medium mt-1.5"></p>
+      </div>
+      <div class="flex gap-2 pt-2">
+        <button onclick="closeLoginModal()" class="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs sm:text-sm transition">
+          Batal
+        </button>
+        <button onclick="handleAdminLogin()" class="w-1/2 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-xs sm:text-sm transition shadow-md shadow-brand-600/20">
+          Masuk
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL KONFIGURASI SPREADSHEET (UNTUK VERCEL / GITHUB) ==================== -->
+  <div id="modalGasConfig" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 space-y-4 fade-in">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">📊</span>
+          <h3 class="font-bold text-slate-900 text-lg">Hubungkan ke Google Sheets</h3>
+        </div>
+        <button onclick="closeGasConfigModal()" class="text-slate-400 hover:text-slate-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <p class="text-xs text-slate-500 leading-relaxed">
+        Masukkan URL Web App Google Apps Script database sekolah Anda agar frontend di Vercel/GitHub terhubung langsung ke Google Spreadsheet.
+      </p>
+      <div>
+        <label for="gasApiUrlInput" class="block text-xs font-semibold text-slate-700 mb-1">URL Web App Google Apps Script</label>
+        <input 
+          type="url" 
+          id="gasApiUrlInput" 
+          placeholder="https://script.google.com/macros/s/AKfycb.../exec" 
+          class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500 text-xs font-mono"
+        >
+        <p class="text-[11px] text-slate-400 mt-1.5 leading-relaxed">
+          Di Google Sheets, klik <b>Ekstensi &gt; Apps Script &gt; Terapkan (Deploy) &gt; Penerapan Baru (New Deployment) &gt; Jenis: Aplikasi Web (Web App) &gt; Siapa yang memiliki akses: Siapa saja (Anyone)</b>.
+        </p>
+      </div>
+      <div class="flex gap-2 pt-2">
+        <button onclick="closeGasConfigModal()" class="w-1/3 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs sm:text-sm transition">
+          Batal
+        </button>
+        <button id="btnSaveGasConfig" onclick="saveGasConfigUrl()" class="w-2/3 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-xs sm:text-sm transition shadow-md shadow-brand-600/20 flex items-center justify-center gap-1.5">
+          <span>Uji &amp; Hubungkan</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL FORM SISWA ==================== -->
+  <div id="modalStudent" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 space-y-4 fade-in">
+      <div class="flex items-center justify-between">
+        <h3 id="modalStudentTitle" class="font-bold text-slate-900 text-lg">Tambah Siswa Baru</h3>
+        <button onclick="closeModalStudent()" class="text-slate-400 hover:text-slate-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="space-y-3 text-xs sm:text-sm">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">NISN (10 Digit)</label>
+          <input type="text" id="mStudentNisn" maxlength="15" placeholder="0081234567" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Nama Lengkap Siswa</label>
+          <input type="text" id="mStudentNama" placeholder="Nama Siswa" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Kelas</label>
+            <input type="text" id="mStudentKelas" placeholder="Contoh: 8-A" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+          </div>
+          <div>
+            <label class="block font-semibold text-slate-700 mb-1">Jenis Kelamin</label>
+            <select id="mStudentJk" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+              <option value="L">Laki-laki (L)</option>
+              <option value="P">Perempuan (P)</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Wali Kelas</label>
+          <input type="text" id="mStudentWali" placeholder="Nama Guru Wali Kelas, S.Pd." class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+        </div>
+      </div>
+      <div class="flex gap-2 pt-3">
+        <button onclick="closeModalStudent()" class="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs sm:text-sm transition">
+          Batal
+        </button>
+        <button onclick="saveStudentForm()" class="w-1/2 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-xs sm:text-sm transition shadow-md shadow-brand-600/20">
+          Simpan Data
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL FORM NILAI ==================== -->
+  <div id="modalGrade" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 space-y-4 fade-in">
+      <div class="flex items-center justify-between">
+        <h3 id="modalGradeTitle" class="font-bold text-slate-900 text-lg">Input Nilai Siswa</h3>
+        <button onclick="closeModalGrade()" class="text-slate-400 hover:text-slate-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <input type="hidden" id="mGradeId">
+      <div class="space-y-3 text-xs sm:text-sm">
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Pilih Siswa (NISN)</label>
+          <select id="mGradeNisn" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+          </select>
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Mata Pelajaran</label>
+          <input type="text" id="mGradeMapel" placeholder="Matematika / IPA / Bahasa Indonesia" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Jenis Asesmen</label>
+          <input type="text" id="mGradeJenis" placeholder="Penilaian Akhir Semester (PAS)" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+        </div>
+        <div>
+          <label class="block font-semibold text-slate-700 mb-1">Nilai Asesmen (0 - 100)</label>
+          <input type="number" id="mGradeNilai" placeholder="85" step="0.1" class="w-full px-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl">
+        </div>
+      </div>
+      <div class="flex gap-2 pt-3">
+        <button onclick="closeModalGrade()" class="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-xl text-xs sm:text-sm transition">
+          Batal
+        </button>
+        <button onclick="saveGradeForm()" class="w-1/2 py-2.5 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl text-xs sm:text-sm transition shadow-md shadow-brand-600/20">
+          Simpan Nilai
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFIKASI ==================== -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-slate-900 text-white px-4 py-3 rounded-xl shadow-xl flex items-center space-x-3 text-xs sm:text-sm">
+      <span id="toastIcon">✓</span>
+      <span id="toastMessage">Operasi berhasil</span>
+    </div>
+  </div>
+
+  <!-- ========================================================
+       JAVASCRIPT LOGIC & KEAMANAN SISTEM
+       ======================================================== -->
+  <script>
+    // ========================================================
+    // HYBRID RUNTIME BRIDGE (GAS NATIVE & VERCEL/GITHUB API)
+    // ========================================================
+    // URL Web App Google Apps Script jika ingin di-hardcode langsung.
+    // Jika kosong, sistem membaca otomatis dari localStorage atau dialog "Hubungkan Spreadsheet".
+    const DEFAULT_GAS_API_URL = "";
+
+    function getActiveGasUrl() {
+      return (window.GAS_API_URL || localStorage.getItem("SMP_GAS_API_URL") || DEFAULT_GAS_API_URL || "").trim();
+    }
+
+    const isNativeGas = typeof google !== 'undefined' && Boolean(google.script) && Boolean(google.script.run);
+    let isGoogleScript = isNativeGas || Boolean(getActiveGasUrl());
+
+    // Inisialisasi Polyfill jika berjalan di Vercel / GitHub Pages / Host Eksternal
+    if (!isNativeGas) {
+      window.google = window.google || {};
+      window.google.script = window.google.script || {};
+      window.google.script.run = (function() {
+        function createProxy(successCb, failureCb) {
+          const runner = {
+            withSuccessHandler: function(fn) {
+              return createProxy(fn, failureCb);
+            },
+            withFailureHandler: function(fn) {
+              return createProxy(successCb, fn);
+            }
+          };
+
+          return new Proxy(runner, {
+            get(target, prop) {
+              if (prop in target) return target[prop];
+
+              return async function(...args) {
+                const gasUrl = getActiveGasUrl();
+                if (!gasUrl) {
+                  const err = new Error("URL Web App Google Apps Script belum disetel.");
+                  if (failureCb) failureCb(err);
+                  else showToast("Database belum tersambung. Klik badge status di atas.", "warning");
+                  return;
+                }
+
+                try {
+                  const payload = { action: prop, args: args };
+                  if (prop === "getStudentByNisn") {
+                    payload.nisn = args[0];
+                  } else if (prop === "loginAdmin") {
+                    payload.password = args[0];
+                  } else if (prop === "getAdminDashboardData") {
+                    payload.auth = args[0];
+                  } else if (prop === "saveStudent") {
+                    payload.auth = args[0];
+                    payload.studentData = args[1];
+                  } else if (prop === "deleteStudent") {
+                    payload.auth = args[0];
+                    payload.nisn = args[1];
+                  } else if (prop === "saveGrade") {
+                    payload.auth = args[0];
+                    payload.gradeData = args[1];
+                  } else if (prop === "deleteGrade") {
+                    payload.auth = args[0];
+                    payload.id = args[1];
+                  } else if (prop === "batchSaveGrades") {
+                    payload.auth = args[0];
+                    payload.gradesArray = args[1];
+                  } else if (prop === "saveLegerMatrix") {
+                    payload.auth = args[0];
+                    payload.matrixData = args[1];
+                  } else if (prop === "syncLegerData") {
+                    payload.auth = args[0];
+                  } else if (prop === "saveMediaAsset") {
+                    payload.auth = args[0];
+                    payload.key = args[1];
+                    payload.dataUrl = args[2];
+                    payload.label = args[3];
+                    payload.kategori = args[4];
+                  } else if (prop === "deleteMediaAsset") {
+                    payload.auth = args[0];
+                    payload.key = args[1];
+                  } else if (prop === "updateSchoolConfig") {
+                    payload.auth = args[0];
+                    payload.newConfig = args[1];
+                  }
+
+                  const response = await fetch(gasUrl, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload),
+                    redirect: "follow"
+                  });
+
+                  if (!response.ok) {
+                    throw new Error("HTTP " + response.status + " " + response.statusText);
+                  }
+
+                  const data = await response.json();
+                  if (successCb) successCb(data);
+                } catch (err) {
+                  console.error("GAS API Error (" + prop + "):", err);
+                  if (failureCb) failureCb(err);
+                }
+              };
+            }
+          });
+        }
+
+        return createProxy(null, null);
+      })();
+    }
+
+    let currentAdminAuth = ""; // Berisi Session Token yang aman
+    let globalSchoolConfig = {};
+    let globalMediaAssets = { logoPemkot: "", logoSekolah: "", stempel: "", ttdKepsek: "" };
+    let adminCacheData = { students: [], grades: [], config: {}, media: [] };
+    let currentActiveView = "siswa";
+
+    // ==========================================
+    // MOCK DATABASE LOKAL (SIMULASI OFFLINE)
+    // ==========================================
+    const MOCK_STORAGE_KEY = "SMP_ASESMEN_MOCK_SECURE_V5";
+
+    function isLikelyTeacherName(str) {
+      if (!str) return false;
+      const s = String(str).trim();
+      if (/\b(S\.Pd|M\.Pd|S\.Ag|M\.Ag|S\.Si|M\.Si|S\.Kom|M\.Kom|S\.E|M\.M|S\.T|M\.T|S\.Sos|Drs|Dra|Dr|Prof|H\.|Hj\.)\b/i.test(s)) {
+        return true;
+      }
+      if (/^[A-Za-z\s\.,\']+$/.test(s) && s.indexOf(' ') !== -1 && !/\b(VII|VIII|IX|X|XI|XII)\b/i.test(s)) {
+        if (s.split(/\s+/).length >= 2 && !/^(kelas|kls|rombel|tingkat)\b/i.test(s)) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    function isLikelyClassName(str) {
+      if (!str) return false;
+      const s = String(str).trim();
+      if (/\b(VII|VIII|IX|7|8|9)\b/i.test(s) || /^\d+[\s\-_]?[A-Za-z0-9]*$/.test(s) || /^(kelas|kls|rombel)\b/i.test(s)) {
+        return true;
+      }
+      return false;
+    }
+
+    function extractJenjang(kelasStr) {
+      if (!kelasStr) return "8";
+      if (isLikelyTeacherName(kelasStr)) return "8";
+      const str = String(kelasStr).trim().toUpperCase();
+      if (/\b(IX|9)\b/.test(str) || str.indexOf("IX") !== -1 || str.indexOf("9") !== -1) return "9";
+      if (/\b(VIII|8)\b/.test(str) || str.indexOf("VIII") !== -1 || str.indexOf("8") !== -1) return "8";
+      if (/\b(VII|7)\b/.test(str) || str.indexOf("VII") !== -1 || str.indexOf("7") !== -1) return "7";
+      const match = str.match(/\d+/);
+      return match ? match[0] : "8";
+    }
+
+    /**
+     * Urutan Resmi Mata Pelajaran Sesuai Ketentuan Kurikulum:
+     * 1. PAI, 2. Pendidikan Pancasila, 3. Bahasa Indonesia, 4. Bahasa Inggris,
+     * 5. IPS, 6. Matematika, 7. IPA, 8. PJOK, 9. Seni Budaya, 10. Informatika, 11. Bahasa Jawa
+     */
+    function getMapelOrderIndex(mapelName) {
+      if (!mapelName) return 999;
+      const m = String(mapelName).toLowerCase().trim().replace(/[\s_\.\-\&]+/g, " ");
+
+      if (m === "pai" || m.indexOf("agama") !== -1 || m.indexOf("budi pekerti") !== -1 || m.indexOf("islam") !== -1) return 1;
+      if (m.indexOf("pancasila") !== -1 || m === "pkn" || m === "ppkn" || m.indexOf("kewarganegaraan") !== -1) return 2;
+      if (m.indexOf("indonesia") !== -1 || m === "bin" || m === "b indo") return 3;
+      if (m.indexOf("inggris") !== -1 || m === "big" || m === "b ing" || m === "english") return 4;
+      if (m === "ips" || m.indexOf("sosial") !== -1) return 5;
+      if (m.indexOf("matematika") !== -1 || m === "mtk" || m === "math") return 6;
+      if (m === "ipa" || m.indexOf("alam") !== -1 || m.indexOf("sains") !== -1) return 7;
+      if (m.indexOf("pjok") !== -1 || m.indexOf("jasmani") !== -1 || m.indexOf("olahraga") !== -1 || m === "penjas") return 8;
+      if (m.indexOf("seni") !== -1 || m.indexOf("budaya") !== -1 || m === "sbk") return 9;
+      if (m.indexOf("informatika") !== -1 || m === "inf" || m === "tik" || m.indexOf("komputer") !== -1) return 10;
+      if (m.indexOf("jawa") !== -1 || m === "bjawa" || m === "b jawa") return 11;
+
+      return 100;
+    }
+
+    function getMockDb() {
+      const stored = localStorage.getItem(MOCK_STORAGE_KEY);
+      if (stored) {
+        try { return JSON.parse(stored); } catch (e) {}
+      }
+      const initialDb = {
+        config: {
+          PEMERINTAH_DAERAH: "PEMERINTAH DAERAH / DINAS PENDIDIKAN",
+          NAMA_SEKOLAH: "SMP NEGERI 1 HARAPAN BANGSA",
+          ALAMAT_SEKOLAH: "Jl. Pendidikan No. 45, Kota Harapan",
+          TELP_SEKOLAH: "(021) 555-1234",
+          TAHUN_AJARAN: "2025/2026",
+          SEMESTER: "Ganjil",
+          JENIS_ASESMEN_AKTIF: "Penilaian Akhir Semester (PAS)",
+          JENIS_ULANGAN_AKTIF: "Penilaian Akhir Semester (PAS)",
+          PASSWORD_ADMIN: "admin123",
+          TANGGAL_BAGI_RAPOR: "18 Desember 2025",
+          KOTA_TERBIT: "Jakarta",
+          NAMA_KEPALA_SEKOLAH: "Drs. H. Mulyadi, M.Pd.",
+          NIP_KEPALA_SEKOLAH: "19720315 199802 1 004"
+        },
+        media: [],
+        students: [
+          { nisn: "0081234567", nama: "Ahmad Fauzan Pratama", kelas: "8-A", jenisKelamin: "L", waliKelas: "Budi Santoso, S.Pd.", status: "Aktif" },
+          { nisn: "0082345678", nama: "Siti Aisyah Rahmawati", kelas: "8-A", jenisKelamin: "P", waliKelas: "Budi Santoso, S.Pd.", status: "Aktif" },
+          { nisn: "0083456789", nama: "Muhammad Rizky Kurniawan", kelas: "8-B", jenisKelamin: "L", waliKelas: "Dewi Lestari, S.Pd.", status: "Aktif" },
+          { nisn: "0084567890", nama: "Cantika Putri Maharani", kelas: "8-B", jenisKelamin: "P", waliKelas: "Dewi Lestari, S.Pd.", status: "Aktif" },
+          { nisn: "0085678901", nama: "Dimas Arya Wicaksana", kelas: "9-A", jenisKelamin: "L", waliKelas: "Agus Setiawan, M.Pd.", status: "Aktif" }
+        ],
+        grades: [
+          { id: "NL-0001", nisn: "0081234567", mapel: "PAI", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 88 },
+          { id: "NL-0002", nisn: "0081234567", mapel: "Pendidikan Pancasila", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 82 },
+          { id: "NL-0003", nisn: "0081234567", mapel: "Bahasa Indonesia", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 85 },
+          { id: "NL-0004", nisn: "0081234567", mapel: "Bahasa Inggris", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 86 },
+          { id: "NL-0005", nisn: "0081234567", mapel: "IPS", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 84 },
+          { id: "NL-0006", nisn: "0081234567", mapel: "Matematika", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 78 },
+          { id: "NL-0007", nisn: "0081234567", mapel: "IPA", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 80 },
+          { id: "NL-0008", nisn: "0081234567", mapel: "PJOK", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 85 },
+          { id: "NL-0009", nisn: "0081234567", mapel: "Seni Budaya", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 83 },
+          { id: "NL-0010", nisn: "0081234567", mapel: "Informatika", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 90 },
+          { id: "NL-0011", nisn: "0081234567", mapel: "Bahasa Jawa", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 88 },
+          { id: "NL-0012", nisn: "0082345678", mapel: "PAI", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 92 },
+          { id: "NL-0013", nisn: "0082345678", mapel: "Pendidikan Pancasila", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 86 },
+          { id: "NL-0014", nisn: "0082345678", mapel: "Bahasa Indonesia", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 90 },
+          { id: "NL-0015", nisn: "0082345678", mapel: "Bahasa Inggris", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 94 },
+          { id: "NL-0016", nisn: "0082345678", mapel: "IPS", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 87 },
+          { id: "NL-0017", nisn: "0082345678", mapel: "Matematika", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 95 },
+          { id: "NL-0018", nisn: "0082345678", mapel: "IPA", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 89 },
+          { id: "NL-0019", nisn: "0082345678", mapel: "PJOK", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 88 },
+          { id: "NL-0020", nisn: "0082345678", mapel: "Seni Budaya", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 85 },
+          { id: "NL-0021", nisn: "0082345678", mapel: "Informatika", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 96 },
+          { id: "NL-0022", nisn: "0082345678", mapel: "Bahasa Jawa", jenisAsesmen: "Penilaian Akhir Semester (PAS)", nilai: 91 }
+        ]
+      };
+      saveMockDb(initialDb);
+      return initialDb;
+    }
+
+    function saveMockDb(db) {
+      localStorage.setItem(MOCK_STORAGE_KEY, JSON.stringify(db));
+    }
+
+    // ==========================================
+    // MANAJEMEN KONEKSI BACKEND (VERCEL / GAS)
+    // ==========================================
+    function openGasConfigModal() {
+      if (isNativeGas) {
+        showToast("Aplikasi berjalan langsung di Google Apps Script (Live).", "info");
+        return;
+      }
+      const input = document.getElementById('gasApiUrlInput');
+      if (input) input.value = getActiveGasUrl();
+      const modal = document.getElementById('modalGasConfig');
+      if (modal) {
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+    }
+
+    function closeGasConfigModal() {
+      const modal = document.getElementById('modalGasConfig');
+      if (modal) {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+    }
+
+    function handleEnvIndicatorClick() {
+      if (!isNativeGas) {
+        openGasConfigModal();
+      }
+    }
+
+    async function saveGasConfigUrl() {
+      const input = document.getElementById('gasApiUrlInput');
+      const url = (input.value || "").trim();
+      if (!url) {
+        localStorage.removeItem("SMP_GAS_API_URL");
+        isGoogleScript = false;
+        showToast("Koneksi dihapus. Beralih ke data simulasi lokal.", "info");
+        closeGasConfigModal();
+        updateEnvBadge();
+        loadInitialSchoolConfig();
+        return;
+      }
+
+      if (!url.startsWith("https://script.google.com/macros/s/")) {
+        showToast("Format URL tidak valid. Harus diawali: https://script.google.com/macros/s/...", "error");
+        return;
+      }
+
+      const btn = document.getElementById('btnSaveGasConfig');
+      const oldHtml = btn.innerHTML;
+      btn.innerHTML = "<span>Menguji koneksi...</span>";
+      btn.disabled = true;
+
+      try {
+        const testUrl = url + (url.includes("?") ? "&" : "?") + "action=getConfig";
+        const res = await fetch(testUrl, { method: "GET", redirect: "follow" });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        if (!data || !data.success) throw new Error(data.message || "Respon data gagal");
+
+        localStorage.setItem("SMP_GAS_API_URL", url);
+        isGoogleScript = true;
+        showToast("Koneksi berhasil! Database Google Sheets aktif.", "success");
+        closeGasConfigModal();
+        updateEnvBadge();
+        loadInitialSchoolConfig();
+      } catch (err) {
+        showToast("Gagal terhubung: " + err.message + ". Pastikan deployment diset 'Anyone'.", "error");
+      } finally {
+        btn.innerHTML = oldHtml;
+        btn.disabled = false;
+      }
+    }
+
+    function saveGasConfigFromTab() {
+      const inp = document.getElementById('cfgGasApiUrl');
+      const url = (inp ? inp.value : "").trim();
+      if (url && !url.startsWith("https://script.google.com/macros/s/")) {
+        showToast("Format URL harus: https://script.google.com/macros/s/...", "error");
+        return;
+      }
+      localStorage.setItem("SMP_GAS_API_URL", url);
+      isGoogleScript = Boolean(url);
+      updateEnvBadge();
+      showToast(url ? "URL API berhasil disimpan!" : "URL dihapus, kembali ke mode simulasi.", "success");
+      loadInitialSchoolConfig();
+    }
+
+    function updateEnvBadge() {
+      const envText = document.getElementById('envText');
+      const envDot = document.getElementById('envDot');
+      const envIndicator = document.getElementById('envIndicator');
+      if (!envIndicator) return;
+
+      if (isNativeGas) {
+        envIndicator.className = "hidden sm:inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 cursor-default";
+        if (envDot) envDot.className = "w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-pulse";
+        if (envText) envText.textContent = "Google Script (Live)";
+        envIndicator.title = "Berjalan langsung di lingkungan Google Apps Script";
+      } else if (getActiveGasUrl()) {
+        envIndicator.className = "inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 cursor-pointer hover:bg-emerald-100 transition";
+        if (envDot) envDot.className = "w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5";
+        if (envText) envText.textContent = "🟢 Terhubung ke Sheets";
+        envIndicator.title = "Terhubung ke Google Sheets. Klik untuk melihat atau mengubah URL.";
+      } else {
+        envIndicator.className = "inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-300 cursor-pointer hover:bg-amber-100 transition shadow-xs animate-pulse";
+        if (envDot) envDot.className = "w-1.5 h-1.5 rounded-full bg-amber-500 mr-1.5";
+        if (envText) envText.textContent = "🟡 Hubungkan Spreadsheet";
+        envIndicator.title = "Klik untuk menghubungkan aplikasi ke Google Sheets sekolah Anda.";
+      }
+    }
+
+    // ==========================================
+    // INIT APLIKASI
+    // ==========================================
+    window.addEventListener('DOMContentLoaded', () => {
+      updateEnvBadge();
+      loadInitialSchoolConfig();
+
+      // Cek SSO Portal Parameter & Auto-Lookup Siswa
+      const urlParams = new URLSearchParams(window.location.search);
+      const ssoRole = urlParams.get('role');
+      const ssoNisn = formatNisn(urlParams.get('nisn'));
+      const ssoPortalUrl = urlParams.get('portal_url');
+
+      if (ssoPortalUrl) {
+        sessionStorage.setItem('nilai_portal_url', ssoPortalUrl);
+      }
+      const effectivePortalUrl = ssoPortalUrl || sessionStorage.getItem('nilai_portal_url');
+      const btnPortal = document.getElementById('btnKembaliPortalNilai');
+      if (btnPortal && effectivePortalUrl) {
+        btnPortal.href = effectivePortalUrl;
+        btnPortal.classList.remove('hidden');
+      }
+
+      if (ssoRole === 'siswa' && ssoNisn) {
+        const nisnInput = document.getElementById('nisnInput');
+        if (nisnInput) {
+          nisnInput.value = ssoNisn;
+          setTimeout(() => {
+            handleSearchStudent();
+          }, 350);
+        }
+      }
+    });
+
+    function loadInitialSchoolConfig() {
+      if (isGoogleScript) {
+        google.script.run
+          .withSuccessHandler(res => {
+            if (res && res.success) {
+              applySchoolConfig(res.config, res.media);
+            }
+          })
+          .withFailureHandler(err => console.error("Config err:", err))
+          .getSchoolConfig();
+      } else {
+        const db = getMockDb();
+        const mediaObj = { logoPemkot: "", logoSekolah: "", stempel: "", ttdKepsek: "" };
+        (db.media || []).forEach(m => {
+          if (m.key === "LOGO_PEMKOT") mediaObj.logoPemkot = m.mediaData;
+          else if (m.key === "LOGO_SEKOLAH") mediaObj.logoSekolah = m.mediaData;
+          else if (m.key === "STEMPEL_SEKOLAH") mediaObj.stempel = m.mediaData;
+          else if (m.key === "TTD_KEPSEK") mediaObj.ttdKepsek = m.mediaData;
+        });
+        applySchoolConfig(db.config, mediaObj);
+      }
+    }
+
+    function applySchoolConfig(cfg, media) {
+      globalSchoolConfig = cfg || {};
+      globalMediaAssets = media || globalMediaAssets;
+
+      if (cfg.NAMA_SEKOLAH) {
+        document.getElementById('headerSchoolName').textContent = cfg.NAMA_SEKOLAH;
+        document.getElementById('kopNamaSekolah').textContent = cfg.NAMA_SEKOLAH;
+        document.getElementById('footerSchoolText').textContent = "© 2026 " + cfg.NAMA_SEKOLAH + ". Sistem Capaian Hasil Belajar Siswa.";
+      }
+      if (cfg.PEMERINTAH_DAERAH) {
+        document.getElementById('kopPemda').textContent = cfg.PEMERINTAH_DAERAH;
+      }
+      // Format Alamat & Kontak Telepon Sekolah tanpa duplikasi & bersih dari error formula
+      let alamat = (cfg.ALAMAT_SEKOLAH || "").trim();
+      let telp = (cfg.TELP_SEKOLAH || cfg.TELPON_SEKOLAH || cfg.TELEPON_SEKOLAH || cfg.NO_TELP || "").trim();
+      
+      // Bersihkan tanda petik awal dan string error formula spreadsheet jika ada
+      if (telp.startsWith("'")) telp = telp.substring(1).trim();
+      if (/^#(ERROR|NAME|REF|VALUE|N\/A)\b/i.test(telp) || telp.toLowerCase() === "undefined" || telp.toLowerCase() === "null") {
+        telp = "";
+      }
+      
+      const kopAlamatEl = document.getElementById('kopAlamatSekolah');
+      if (kopAlamatEl) {
+        if (alamat && telp) {
+          if (alamat.toLowerCase().includes(telp.toLowerCase()) || alamat.toLowerCase().includes("telp")) {
+            kopAlamatEl.textContent = alamat;
+          } else {
+            kopAlamatEl.textContent = alamat + " | Telp: " + telp;
+          }
+        } else if (alamat) {
+          kopAlamatEl.textContent = alamat;
+        } else if (telp) {
+          kopAlamatEl.textContent = "Telp: " + telp;
+        } else {
+          kopAlamatEl.textContent = "";
+        }
+      }
+      if (cfg.TAHUN_AJARAN) {
+        document.getElementById('heroTahunAjaran').textContent = cfg.TAHUN_AJARAN;
+        document.getElementById('adminStatSemester').textContent = cfg.TAHUN_AJARAN;
+      }
+      if (cfg.SEMESTER) {
+        document.getElementById('heroSemester').textContent = cfg.SEMESTER;
+      }
+      if (cfg.JENIS_ULANGAN_AKTIF) {
+        document.getElementById('adminStatJenisUlangan').textContent = cfg.JENIS_ULANGAN_AKTIF;
+      }
+      if (cfg.NAMA_KEPALA_SEKOLAH) {
+        document.getElementById('ttdKepalaSekolah').textContent = cfg.NAMA_KEPALA_SEKOLAH;
+      }
+      if (cfg.NIP_KEPALA_SEKOLAH) {
+        document.getElementById('ttdNipKepala').textContent = "NIP. " + cfg.NIP_KEPALA_SEKOLAH;
+      }
+      if (cfg.TANGGAL_BAGI_RAPOR) {
+        const kota = cfg.KOTA_TERBIT || "Jakarta";
+        document.getElementById('ttdKotaTanggal').textContent = kota + ", " + cfg.TANGGAL_BAGI_RAPOR;
+      }
+
+      applyMediaToViews(globalMediaAssets);
+    }
+
+    function applyMediaToViews(media) {
+      if (!media) return;
+
+      // 1. Logo Pemkot (Sebelah Kiri Halaman)
+      const navLp = document.getElementById('navLogoPemkot');
+      const navLpPh = document.getElementById('navLogoPemkotPlaceholder');
+      const kopLp = document.getElementById('kopLogoPemkot');
+      const kopLpPh = document.getElementById('kopLogoPemkotPh');
+
+      if (media.logoPemkot) {
+        navLp.src = media.logoPemkot;
+        navLp.classList.remove('hidden');
+        navLpPh.classList.add('hidden');
+        kopLp.src = media.logoPemkot;
+        kopLp.classList.remove('hidden');
+        kopLpPh.classList.add('hidden');
+      } else {
+        navLp.classList.add('hidden');
+        navLpPh.classList.remove('hidden');
+        kopLp.classList.add('hidden');
+        kopLpPh.classList.remove('hidden');
+      }
+
+      // 2. Logo Sekolah (Sebelah Kanan Halaman)
+      const navLs = document.getElementById('navLogoSekolah');
+      const navLsPh = document.getElementById('navLogoSekolahPlaceholder');
+      const kopLs = document.getElementById('kopLogoSekolah');
+      const kopLsPh = document.getElementById('kopLogoSekolahPh');
+
+      if (media.logoSekolah) {
+        navLs.src = media.logoSekolah;
+        navLs.classList.remove('hidden');
+        navLsPh.classList.add('hidden');
+        kopLs.src = media.logoSekolah;
+        kopLs.classList.remove('hidden');
+        kopLsPh.classList.add('hidden');
+      } else {
+        navLs.classList.add('hidden');
+        navLsPh.classList.remove('hidden');
+        kopLs.classList.add('hidden');
+        kopLsPh.classList.remove('hidden');
+      }
+
+      // 3. Stempel Sekolah (Dihilangkan sesuai instruksi resmi sekolah)
+      const stmp = document.getElementById('imgStempelSekolah');
+      const stmpPh = document.getElementById('imgStempelPlaceholder');
+      if (stmp && stmpPh) {
+        if (media.stempel) {
+          stmp.src = media.stempel;
+          stmp.classList.remove('hidden');
+          stmpPh.classList.add('hidden');
+        } else {
+          stmp.classList.add('hidden');
+          stmpPh.classList.remove('hidden');
+        }
+      }
+
+      // 4. TTD Kepala Sekolah (Kanan Bawah)
+      const ttdK = document.getElementById('imgTtdKepsek');
+      const ttdKPh = document.getElementById('imgTtdKepsekPlaceholder');
+      if (media.ttdKepsek) {
+        ttdK.src = media.ttdKepsek;
+        ttdK.classList.remove('hidden');
+        ttdKPh.classList.add('hidden');
+      } else {
+        ttdK.classList.add('hidden');
+        ttdKPh.classList.remove('hidden');
+      }
+    }
+
+    // ==========================================
+    // PENCARIAN SISWA (VALIDASI & SANITASI)
+    // ==========================================
+    function setSampleNisn(nisn) {
+      document.getElementById('nisnInput').value = nisn;
+      handleSearchStudent();
+    }
+
+    function handleSearchStudent() {
+      const nisnRaw = document.getElementById('nisnInput').value.trim();
+      
+      // Validasi Keamanan: NISN hanya boleh angka numerik
+      if (!nisnRaw) {
+        showToast("Silakan masukkan NISN siswa.", "warning");
+        return;
+      }
+      if (!/^[0-9]{5,15}$/.test(nisnRaw)) {
+        showToast("Format NISN tidak valid. NISN harus berupa angka.", "error");
+        return;
+      }
+
+      document.getElementById('studentError').classList.add('hidden');
+      document.getElementById('studentResultContainer').classList.add('hidden');
+      document.getElementById('studentLoading').classList.remove('hidden');
+
+      if (isGoogleScript) {
+        google.script.run
+          .withSuccessHandler(onSearchResult)
+          .withFailureHandler(onSearchError)
+          .getStudentByNisn(nisnRaw);
+      } else {
+        setTimeout(() => {
+          const db = getMockDb();
+          const student = db.students.find(s => s.nisn === nisnRaw);
+          if (!student) {
+            onSearchResult({
+              success: false,
+              message: "Data NISN '" + escapeHtml(nisnRaw) + "' tidak ditemukan. Pastikan nomor NISN sudah sesuai atau hubungi pihak sekolah."
+            });
+            return;
+          }
+
+          const studentJenjang = extractJenjang(student.kelas);
+          const studentMap = {};
+          db.students.forEach(s => studentMap[s.nisn] = s);
+
+          let totalSchoolScore = 0;
+          let totalSchoolCount = 0;
+          const jenjangAgg = {};
+          const studentGrades = [];
+          let studentTotal = 0;
+          let highest = 0;
+
+          (db.grades || []).forEach(g => {
+            const val = typeof g.nilai === 'number' ? g.nilai : parseFloat(String(g.nilai).replace(',', '.')) || 0;
+            totalSchoolScore += val;
+            totalSchoolCount++;
+
+            const rowStudent = studentMap[g.nisn] || { kelas: "8" };
+            const rowJenjang = extractJenjang(rowStudent.kelas);
+            const aggKey = rowJenjang + "###" + (g.mapel || "").toLowerCase().trim();
+            if (!jenjangAgg[aggKey]) jenjangAgg[aggKey] = { sum: 0, count: 0 };
+            jenjangAgg[aggKey].sum += val;
+            jenjangAgg[aggKey].count++;
+
+            if (g.nisn === nisnRaw) {
+              studentGrades.push({
+                id: g.id,
+                mapel: g.mapel,
+                jenisAsesmen: g.jenisAsesmen || g.jenisUlangan || "Penilaian Akhir Semester (PAS)",
+                nilai: val
+              });
+              studentTotal += val;
+              if (val > highest) highest = val;
+            }
+          });
+
+          const OFFICIAL_MAPEL_LIST = [
+            "PAI", "Pendidikan Pancasila", "Bahasa Indonesia", "Bahasa Inggris",
+            "IPS", "Matematika", "IPA", "PJOK", "Seni Budaya", "Informatika", "Bahasa Jawa"
+          ];
+          const mockPresent = new Set();
+          studentGrades.forEach(g => mockPresent.add(getMapelOrderIndex(g.mapel)));
+          OFFICIAL_MAPEL_LIST.forEach(m => {
+            const o = getMapelOrderIndex(m);
+            if (!mockPresent.has(o)) {
+              studentGrades.push({
+                id: "EMPTY-" + o,
+                mapel: m,
+                jenisAsesmen: "Penilaian Akhir Semester (PAS)",
+                nilai: "-",
+                isEmpty: true,
+                rataRataJenjang: "-"
+              });
+              mockPresent.add(o);
+            }
+          });
+
+          let mockScoredCount = 0;
+          studentGrades.forEach(g => {
+            if (typeof g.nilai === 'number' && !g.isEmpty) mockScoredCount++;
+          });
+
+          const schoolAverageScore = totalSchoolCount > 0 ? (totalSchoolScore / totalSchoolCount).toFixed(1) : "0.0";
+          const studentAverageScore = mockScoredCount > 0 ? (studentTotal / mockScoredCount).toFixed(1) : "0.0";
+
+          studentGrades.forEach(g => {
+            const aggKey = studentJenjang + "###" + (g.mapel || "").toLowerCase().trim();
+            const agg = jenjangAgg[aggKey];
+            if (agg && agg.count > 0) {
+              g.rataRataJenjang = (agg.sum / agg.count).toFixed(1);
+            } else {
+              g.rataRataJenjang = (typeof g.nilai === 'number') ? g.nilai.toFixed(1) : "-";
+            }
+          });
+
+          onSearchResult({
+            success: true,
+            student: student,
+            grades: studentGrades,
+            statistics: {
+              totalSubjects: studentGrades.length,
+              studentAverageScore: studentAverageScore,
+              schoolAverageScore: schoolAverageScore,
+              highestScore: highest,
+              studentTotalScore: studentTotal,
+              jenjangLevel: studentJenjang
+            },
+            config: db.config,
+            media: {
+              logoPemkot: (db.media || []).find(m => m.key === "LOGO_PEMKOT")?.mediaData || "",
+              logoSekolah: (db.media || []).find(m => m.key === "LOGO_SEKOLAH")?.mediaData || "",
+              stempel: (db.media || []).find(m => m.key === "STEMPEL_SEKOLAH")?.mediaData || "",
+              ttdKepsek: (db.media || []).find(m => m.key === "TTD_KEPSEK")?.mediaData || ""
+            }
+          });
+        }, 200);
+      }
+    }
+
+    function onSearchResult(res) {
+      document.getElementById('studentLoading').classList.add('hidden');
+      if (!res || !res.success) {
+        document.getElementById('studentErrorMessage').textContent = res ? res.message : "Terjadi kesalahan saat memuat data.";
+        document.getElementById('studentError').classList.remove('hidden');
+        return;
+      }
+
+      const s = res.student;
+      const stats = res.statistics;
+      const cfg = res.config || globalSchoolConfig;
+      const media = res.media || globalMediaAssets;
+
+      applySchoolConfig(cfg, media);
+
+      // Render Biodata
+      let displayKelas = s.kelas || "";
+      let displayWali = s.waliKelas || "";
+
+      // Proteksi Tambahan Tampilan: Jika nama wali dan kelas tertukar
+      if (isLikelyTeacherName(displayKelas) && (isLikelyClassName(displayWali) || !displayWali)) {
+        const tmpK = displayKelas;
+        displayKelas = displayWali || "-";
+        displayWali = tmpK;
+      }
+
+      document.getElementById('resNamaSiswa').textContent = s.nama;
+      document.getElementById('resNisn').textContent = s.nisn;
+      document.getElementById('resKelas').textContent = displayKelas || "-";
+      document.getElementById('resWaliKelas').textContent = displayWali || "-";
+      document.getElementById('resTahunAjaran').textContent = cfg.TAHUN_AJARAN || "2025/2026";
+      document.getElementById('resSemester').textContent = (cfg.SEMESTER || "Ganjil") + " (" + (cfg.JENIS_ASESMEN_AKTIF || cfg.JENIS_ULANGAN_AKTIF || "PAS") + ")";
+      
+      // Stat Cards
+      document.getElementById('statRataRata').textContent = stats.studentAverageScore || stats.averageScore || "0.0";
+      document.getElementById('statRataRataSekolah').textContent = stats.schoolAverageScore || "0.0";
+      document.getElementById('statTertinggi').textContent = stats.highestScore || 0;
+      document.getElementById('statJumlahMapel').textContent = stats.totalSubjects || 0;
+
+      // Tabel Nilai Asesmen Siswa (Urutan Resmi 11 Mata Pelajaran)
+      const tbody = document.getElementById('studentGradesTableBody');
+      tbody.innerHTML = "";
+
+      // Daftar 11 Mata Pelajaran Resmi Kurikulum SMP
+      const OFFICIAL_MAPEL_LIST = [
+        "PAI",
+        "Pendidikan Pancasila",
+        "Bahasa Indonesia",
+        "Bahasa Inggris",
+        "IPS",
+        "Matematika",
+        "IPA",
+        "PJOK",
+        "Seni Budaya",
+        "Informatika",
+        "Bahasa Jawa"
+      ];
+
+      // Kumpulkan mapel yang diterima dari backend
+      const rawGrades = Array.isArray(res.grades) ? res.grades.slice() : [];
+      const presentOrders = new Set();
+      rawGrades.forEach(g => {
+        presentOrders.add(getMapelOrderIndex(g.mapel));
+      });
+
+      // JAMINAN: TAMPILKAN SEMUA MAPEL WALAUPUN NILAI SISWA KOSONG
+      OFFICIAL_MAPEL_LIST.forEach(offMapel => {
+        const o = getMapelOrderIndex(offMapel);
+        if (!presentOrders.has(o)) {
+          rawGrades.push({
+            id: "EMPTY-" + o,
+            mapel: offMapel,
+            jenisAsesmen: "Penilaian Akhir Semester (PAS)",
+            nilai: "-",
+            isEmpty: true,
+            rataRataJenjang: "-"
+          });
+          presentOrders.add(o);
+        }
+      });
+
+      const sortedGrades = rawGrades.sort((a, b) => {
+        const oA = getMapelOrderIndex(a.mapel);
+        const oB = getMapelOrderIndex(b.mapel);
+        if (oA !== oB) return oA - oB;
+        return (a.mapel || "").localeCompare(b.mapel || "");
+      });
+
+      // Update stat jumlah mapel agar selalu akurat menampilkan total mapel yang terdaftar
+      document.getElementById('statJumlahMapel').textContent = sortedGrades.length;
+
+      sortedGrades.forEach((g, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50 transition";
+
+        const isNilaiEmpty = (g.nilai === "-" || g.nilai === null || g.nilai === undefined || g.nilai === "" || g.isEmpty);
+        const valHtml = isNilaiEmpty
+          ? `<span class="inline-block px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-400 font-bold text-xs sm:text-sm">-</span>`
+          : `<span class="font-mono font-bold text-sm sm:text-base text-slate-900">${g.nilai}</span>`;
+
+        const isJenjangEmpty = (g.rataRataJenjang === "-" || g.rataRataJenjang === null || g.rataRataJenjang === undefined || g.rataRataJenjang === "");
+        const jenjangHtml = isJenjangEmpty
+          ? `<span class="text-slate-400 font-semibold text-xs sm:text-sm">-</span>`
+          : `<span class="font-mono font-semibold text-xs sm:text-sm text-indigo-700 bg-indigo-50/60 px-2 py-0.5 rounded">${g.rataRataJenjang}</span>`;
+
+        tr.innerHTML = `
+          <td class="py-2.5 sm:py-3.5 px-2 sm:px-3 text-center text-slate-500 font-medium text-xs sm:text-sm">${idx + 1}</td>
+          <td class="py-2.5 sm:py-3.5 px-2.5 sm:px-4 font-semibold text-slate-900 text-xs sm:text-sm leading-snug">${escapeHtml(g.mapel)}</td>
+          <td class="py-2.5 sm:py-3.5 px-2 sm:px-4 text-center">${valHtml}</td>
+          <td class="py-2.5 sm:py-3.5 px-2 sm:px-4 text-center">${jenjangHtml}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      document.getElementById('studentResultContainer').classList.remove('hidden');
+      document.getElementById('studentResultContainer').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function onSearchError(err) {
+      document.getElementById('studentLoading').classList.add('hidden');
+      document.getElementById('studentErrorMessage').textContent = "Gagal memuat data: " + (err.message || err.toString());
+      document.getElementById('studentError').classList.remove('hidden');
+    }
+
+    function clearSearch() {
+      document.getElementById('nisnInput').value = "";
+      document.getElementById('studentResultContainer').classList.add('hidden');
+      document.getElementById('studentError').classList.add('hidden');
+      document.getElementById('nisnInput').focus();
+    }
+
+    // ==========================================
+    // NAVIGASI VIEW & AUTENTIKASI ADMIN AMAN
+    // ==========================================
+    function switchView(viewName) {
+      currentActiveView = viewName;
+      if (viewName === 'admin') {
+        document.getElementById('viewSiswa').classList.add('hidden');
+        document.getElementById('viewAdmin').classList.remove('hidden');
+      } else {
+        document.getElementById('viewAdmin').classList.add('hidden');
+        document.getElementById('viewSiswa').classList.remove('hidden');
+      }
+      updateNavbarAdminArea();
+    }
+
+    function toggleAdminStudentView() {
+      if (currentActiveView === 'admin') {
+        switchView('siswa');
+      } else {
+        switchView('admin');
+      }
+    }
+
+    function openLoginModal() {
+      document.getElementById('adminPassInput').value = "";
+      document.getElementById('loginErrorText').classList.add('hidden');
+      document.getElementById('modalLogin').classList.remove('hidden');
+      document.getElementById('modalLogin').classList.add('flex');
+      document.getElementById('adminPassInput').focus();
+    }
+
+    function closeLoginModal() {
+      document.getElementById('modalLogin').classList.add('hidden');
+      document.getElementById('modalLogin').classList.remove('flex');
+    }
+
+    function handleAdminLogin() {
+      const pass = document.getElementById('adminPassInput').value.trim();
+      const errEl = document.getElementById('loginErrorText');
+      if (!pass) {
+        errEl.textContent = "Silakan masukkan password admin.";
+        errEl.classList.remove('hidden');
+        return;
+      }
+
+      if (isGoogleScript) {
+        google.script.run
+          .withSuccessHandler(res => {
+            if (res && res.success) {
+              currentAdminAuth = res.token || pass;
+              closeLoginModal();
+              switchView('admin');
+              loadAdminData();
+              showToast("Login Admin Berhasil (Sesi Terproteksi)", "success");
+            } else {
+              errEl.textContent = res ? res.message : "Password salah.";
+              errEl.classList.remove('hidden');
+            }
+          })
+          .withFailureHandler(err => {
+            errEl.textContent = "Error: " + err.toString();
+            errEl.classList.remove('hidden');
+          })
+          .loginAdmin(pass);
+      } else {
+        const db = getMockDb();
+        if (pass === (db.config.PASSWORD_ADMIN || "admin123")) {
+          currentAdminAuth = "MOCK_TOKEN_" + Date.now();
+          closeLoginModal();
+          switchView('admin');
+          loadAdminData();
+          showToast("Login Admin Berhasil (Simulasi)", "success");
+        } else {
+          errEl.textContent = "Password admin salah. (Default: admin123)";
+          errEl.classList.remove('hidden');
+        }
+      }
+    }
+
+    /**
+     * PUSAT KONTROL NAVBAR:
+     * Menjamin HANYA ADA 1 TOMBOL KELUAR dan 1 TOMBOL TOGGLE VIEW
+     */
+    function updateNavbarAdminArea() {
+      const navArea = document.getElementById('navActionArea');
+      
+      if (!currentAdminAuth) {
+        // Mode Tamu / Siswa (Belum Login)
+        navArea.innerHTML = `
+          <button id="btnOpenLoginModal" onclick="openLoginModal()" class="inline-flex items-center px-3.5 py-2 text-xs sm:text-sm font-semibold rounded-lg text-slate-700 hover:text-brand-600 hover:bg-slate-100 transition border border-slate-200 shadow-2xs">
+            <svg class="w-4 h-4 mr-1.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+            </svg>
+            Akses Guru/Admin
+          </button>
+        `;
+      } else {
+        // Mode Admin Aktif: Tepat 1 Tombol Beralih & Tepat 1 Tombol Keluar
+        const isCurrentlyInAdmin = currentActiveView === 'admin';
+        const toggleText = isCurrentlyInAdmin ? "Mode Siswa" : "Panel Admin";
+        const toggleIcon = isCurrentlyInAdmin 
+          ? `<svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>`
+          : `<svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>`;
+
+        navArea.innerHTML = `
+          <div class="flex items-center space-x-2">
+            <span class="hidden md:inline-flex items-center px-2 py-1 rounded-md text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200">
+              Admin
+            </span>
+            <button onclick="toggleAdminStudentView()" class="inline-flex items-center px-3 py-1.5 text-xs font-semibold text-brand-700 bg-brand-50 hover:bg-brand-100 border border-brand-200 rounded-lg transition">
+              ${toggleIcon}
+              <span>${toggleText}</span>
+            </button>
+            <button onclick="logoutAdmin()" class="inline-flex items-center px-3 py-1.5 text-xs font-bold text-white bg-rose-600 hover:bg-rose-700 rounded-lg transition shadow-xs">
+              <svg class="w-3.5 h-3.5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+              <span>Keluar Admin</span>
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    /**
+     * LOGOUT ADMIN BERSIH
+     */
+    function logoutAdmin() {
+      const token = currentAdminAuth;
+      currentAdminAuth = "";
+
+      if (isGoogleScript && token) {
+        google.script.run.logoutAdminApi(token);
+      }
+
+      switchView('siswa');
+      showToast("Anda telah keluar dari mode admin.", "info");
+    }
+
+    // ==========================================
+    // ADMIN DASHBOARD & TABS
+    // ==========================================
+    function switchAdminTab(tabKey) {
+      const tabs = ['nilai', 'siswa', 'batch', 'media', 'config'];
+      tabs.forEach(t => {
+        const btn = document.getElementById('tabBtn' + capitalize(t));
+        const pane = document.getElementById('adminTab' + capitalize(t));
+        if (t === tabKey) {
+          btn.className = "py-3 px-3 sm:px-4 border-b-2 border-brand-600 text-brand-600 font-bold transition whitespace-nowrap";
+          pane.classList.remove('hidden');
+        } else {
+          btn.className = "py-3 px-3 sm:px-4 border-b-2 border-transparent text-slate-500 hover:text-slate-800 font-semibold transition whitespace-nowrap";
+          pane.classList.add('hidden');
+        }
+      });
+
+      if (tabKey === 'batch') {
+        populateBatchClasses();
+      } else if (tabKey === 'media') {
+        renderAdminMediaTab();
+      } else if (tabKey === 'config') {
+        fillConfigForm();
+      }
+    }
+
+    function loadAdminData() {
+      showToast("Memperbarui data admin...", "info");
+      if (isGoogleScript) {
+        google.script.run
+          .withSuccessHandler(onAdminDataLoaded)
+          .withFailureHandler(err => showToast("Gagal memuat: " + err.toString(), "error"))
+          .getAdminDashboardData(currentAdminAuth);
+      } else {
+        const db = getMockDb();
+        let totalScoreAll = 0;
+        db.grades.forEach(g => totalScoreAll += g.nilai);
+        onAdminDataLoaded({
+          success: true,
+          totalStudents: db.students.length,
+          totalGrades: db.grades.length,
+          averageSchoolScore: db.grades.length > 0 ? (totalScoreAll / db.grades.length).toFixed(1) : 0,
+          students: db.students,
+          grades: db.grades,
+          config: db.config,
+          media: db.media || []
+        });
+      }
+    }
+
+    function onAdminDataLoaded(data) {
+      if (!data || !data.success) {
+        showToast(data ? data.message : "Gagal memuat data", "error");
+        return;
+      }
+
+      adminCacheData = data;
+      document.getElementById('adminStatTotalSiswa').textContent = data.totalStudents;
+      document.getElementById('adminStatTotalNilai').textContent = data.totalGrades;
+      document.getElementById('adminStatRataSekolah').textContent = data.averageSchoolScore;
+
+      populateClassFilters();
+      renderAdminGradesTable();
+      renderAdminStudentsTable();
+      renderAdminMediaTab();
+      showToast("Data terbaru siap.", "success");
+    }
+
+    function populateClassFilters() {
+      const selectFilter = document.getElementById('filterKelasNilai');
+      const uniqueClasses = [...new Set(adminCacheData.students.map(s => s.kelas))].filter(Boolean).sort();
+      const currentVal = selectFilter.value;
+      selectFilter.innerHTML = '<option value="">Semua Kelas</option>';
+      uniqueClasses.forEach(c => {
+        selectFilter.innerHTML += `<option value="${escapeHtml(c)}">Kelas ${escapeHtml(c)}</option>`;
+      });
+      selectFilter.value = currentVal;
+    }
+
+    // ==========================================
+    // TAB 1: KELOLA NILAI
+    // ==========================================
+    function renderAdminGradesTable() {
+      const search = document.getElementById('searchNilaiAdmin').value.toLowerCase();
+      const filterKelas = document.getElementById('filterKelasNilai').value;
+      const tbody = document.getElementById('adminGradesTableBody');
+      tbody.innerHTML = "";
+
+      const studentMap = {};
+      adminCacheData.students.forEach(s => studentMap[s.nisn] = s);
+
+      const filtered = adminCacheData.grades.filter(g => {
+        const student = studentMap[g.nisn] || { nama: "", kelas: "" };
+        const matchesSearch = g.nisn.toLowerCase().includes(search) ||
+                              g.mapel.toLowerCase().includes(search) ||
+                              student.nama.toLowerCase().includes(search);
+        const matchesKelas = !filterKelas || student.kelas === filterKelas;
+        return matchesSearch && matchesKelas;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-6 text-center text-slate-400">Tidak ada data nilai yang sesuai.</td></tr>`;
+        return;
+      }
+
+      filtered.forEach(g => {
+        const student = studentMap[g.nisn] || { nama: "-", kelas: "-" };
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50 transition";
+        tr.innerHTML = `
+          <td class="py-3 px-3 font-mono font-medium text-slate-700">${escapeHtml(g.nisn)}</td>
+          <td class="py-3 px-3 font-semibold text-slate-900">${escapeHtml(student.nama)}</td>
+          <td class="py-3 px-3 text-slate-600">${escapeHtml(student.kelas)}</td>
+          <td class="py-3 px-3 text-slate-800 font-medium">${escapeHtml(g.mapel)}</td>
+          <td class="py-3 px-3 text-center font-bold font-mono text-slate-900 text-sm">${g.nilai}</td>
+          <td class="py-3 px-3 text-right space-x-1 whitespace-nowrap">
+            <button onclick="editGrade('${g.id}')" class="p-1.5 text-brand-600 hover:bg-brand-50 rounded-lg transition" title="Edit">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            </button>
+            <button onclick="confirmDeleteGrade('${g.id}', '${escapeHtml(g.mapel)}', '${escapeHtml(student.nama)}')" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Hapus">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openModalGrade(grade = null) {
+      const selectNisn = document.getElementById('mGradeNisn');
+      selectNisn.innerHTML = '<option value="">-- Pilih Siswa --</option>';
+      adminCacheData.students.forEach(s => {
+        selectNisn.innerHTML += `<option value="${s.nisn}">${s.nisn} - ${escapeHtml(s.nama)} (${s.kelas})</option>`;
+      });
+
+      if (grade) {
+        document.getElementById('modalGradeTitle').textContent = "Edit Nilai Asesmen";
+        document.getElementById('mGradeId').value = grade.id;
+        selectNisn.value = grade.nisn;
+        document.getElementById('mGradeMapel').value = grade.mapel;
+        document.getElementById('mGradeJenis').value = grade.jenisAsesmen || grade.jenisUlangan || "Penilaian Akhir Semester (PAS)";
+        document.getElementById('mGradeNilai').value = grade.nilai;
+      } else {
+        document.getElementById('modalGradeTitle').textContent = "Tambah Nilai Asesmen Baru";
+        document.getElementById('mGradeId').value = "";
+        document.getElementById('mGradeMapel').value = "";
+        document.getElementById('mGradeJenis').value = (adminCacheData.config && (adminCacheData.config.JENIS_ASESMEN_AKTIF || adminCacheData.config.JENIS_ULANGAN_AKTIF)) || "Penilaian Akhir Semester (PAS)";
+        document.getElementById('mGradeNilai').value = "";
+      }
+
+      document.getElementById('modalGrade').classList.remove('hidden');
+      document.getElementById('modalGrade').classList.add('flex');
+    }
+
+    function closeModalGrade() {
+      document.getElementById('modalGrade').classList.add('hidden');
+      document.getElementById('modalGrade').classList.remove('flex');
+    }
+
+    function editGrade(id) {
+      const g = adminCacheData.grades.find(x => x.id === id);
+      if (g) openModalGrade(g);
+    }
+
+    function saveGradeForm() {
+      const id = document.getElementById('mGradeId').value;
+      const nisn = document.getElementById('mGradeNisn').value;
+      const mapel = document.getElementById('mGradeMapel').value.trim();
+      const jenis = document.getElementById('mGradeJenis').value.trim() || "Penilaian Akhir Semester (PAS)";
+      const nilai = parseFloat(document.getElementById('mGradeNilai').value);
+
+      if (!nisn || !mapel || isNaN(nilai)) {
+        showToast("Mohon lengkapi data nilai.", "warning");
+        return;
+      }
+
+      const gradeData = {
+        id: id,
+        nisn: nisn,
+        mapel: mapel,
+        jenisAsesmen: jenis,
+        nilai: nilai
+      };
+
+      if (isGoogleScript) {
+        showToast("Menyimpan ke Google Sheets...", "info");
+        google.script.run
+          .withSuccessHandler(res => {
+            closeModalGrade();
+            showToast(res.message, res.success ? "success" : "error");
+            loadAdminData();
+          })
+          .withFailureHandler(err => showToast("Error: " + err.toString(), "error"))
+          .saveGrade(currentAdminAuth, gradeData);
+      } else {
+        const db = getMockDb();
+        if (id) {
+          const idx = db.grades.findIndex(g => g.id === id);
+          if (idx !== -1) {
+            db.grades[idx] = {
+              ...db.grades[idx],
+              ...gradeData
+            };
+          }
+        } else {
+          gradeData.id = "NL-" + Date.now();
+          db.grades.push(gradeData);
+        }
+        saveMockDb(db);
+        closeModalGrade();
+        showToast("Nilai berhasil disimpan!", "success");
+        loadAdminData();
+      }
+    }
+
+    function confirmDeleteGrade(id, mapel, nama) {
+      if (confirm(`Hapus nilai '${mapel}' untuk siswa '${nama}'?`)) {
+        if (isGoogleScript) {
+          google.script.run
+            .withSuccessHandler(res => {
+              showToast(res.message, res.success ? "success" : "error");
+              loadAdminData();
+            })
+            .withFailureHandler(err => showToast("Error: " + err.toString(), "error"))
+            .deleteGrade(currentAdminAuth, id);
+        } else {
+          const db = getMockDb();
+          db.grades = db.grades.filter(g => g.id !== id);
+          saveMockDb(db);
+          showToast("Nilai berhasil dihapus!", "success");
+          loadAdminData();
+        }
+      }
+    }
+
+    // ==========================================
+    // TAB 2: KELOLA SISWA
+    // ==========================================
+    function renderAdminStudentsTable() {
+      const search = document.getElementById('searchSiswaAdmin').value.toLowerCase();
+      const tbody = document.getElementById('adminStudentsTableBody');
+      tbody.innerHTML = "";
+
+      const filtered = adminCacheData.students.filter(s => {
+        return s.nisn.toLowerCase().includes(search) ||
+               s.nama.toLowerCase().includes(search) ||
+               s.kelas.toLowerCase().includes(search);
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-slate-400">Tidak ada siswa ditemukan.</td></tr>`;
+        return;
+      }
+
+      filtered.forEach(s => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50 transition";
+        tr.innerHTML = `
+          <td class="py-3 px-3 font-mono font-medium text-slate-800">${escapeHtml(s.nisn)}</td>
+          <td class="py-3 px-4 font-semibold text-slate-900">${escapeHtml(s.nama)}</td>
+          <td class="py-3 px-3 text-slate-600 font-medium">${escapeHtml(s.kelas)}</td>
+          <td class="py-3 px-3 text-slate-500">${escapeHtml(s.jenisKelamin)}</td>
+          <td class="py-3 px-4 text-slate-600">${escapeHtml(s.waliKelas || '-')}</td>
+          <td class="py-3 px-3">
+            <span class="inline-block px-2 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">
+              ${escapeHtml(s.status || 'Aktif')}
+            </span>
+          </td>
+          <td class="py-3 px-3 text-right space-x-1 whitespace-nowrap">
+            <button onclick="editStudent('${s.nisn}')" class="p-1.5 text-brand-600 hover:bg-brand-50 rounded-lg transition" title="Edit">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            </button>
+            <button onclick="confirmDeleteStudent('${s.nisn}', '${escapeHtml(s.nama)}')" class="p-1.5 text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Hapus">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function openModalStudent(student = null) {
+      if (student) {
+        document.getElementById('modalStudentTitle').textContent = "Edit Data Siswa";
+        document.getElementById('mStudentNisn').value = student.nisn;
+        document.getElementById('mStudentNisn').readOnly = true;
+        document.getElementById('mStudentNama').value = student.nama;
+        document.getElementById('mStudentKelas').value = student.kelas;
+        document.getElementById('mStudentJk').value = student.jenisKelamin || "L";
+        document.getElementById('mStudentWali').value = student.waliKelas || "";
+      } else {
+        document.getElementById('modalStudentTitle').textContent = "Tambah Siswa Baru";
+        document.getElementById('mStudentNisn').value = "";
+        document.getElementById('mStudentNisn').readOnly = false;
+        document.getElementById('mStudentNama').value = "";
+        document.getElementById('mStudentKelas').value = "";
+        document.getElementById('mStudentJk').value = "L";
+        document.getElementById('mStudentWali').value = "";
+      }
+
+      document.getElementById('modalStudent').classList.remove('hidden');
+      document.getElementById('modalStudent').classList.add('flex');
+    }
+
+    function closeModalStudent() {
+      document.getElementById('modalStudent').classList.add('hidden');
+      document.getElementById('modalStudent').classList.remove('flex');
+    }
+
+    function editStudent(nisn) {
+      const s = adminCacheData.students.find(x => x.nisn === nisn);
+      if (s) openModalStudent(s);
+    }
+
+    function saveStudentForm() {
+      const nisn = document.getElementById('mStudentNisn').value.trim();
+      const nama = document.getElementById('mStudentNama').value.trim();
+      const kelas = document.getElementById('mStudentKelas').value.trim();
+      const jk = document.getElementById('mStudentJk').value;
+      const wali = document.getElementById('mStudentWali').value.trim();
+
+      if (!nisn || !nama || !kelas) {
+        showToast("NISN, Nama, dan Kelas wajib diisi.", "warning");
+        return;
+      }
+
+      const studentData = {
+        nisn: nisn,
+        nama: nama,
+        kelas: kelas,
+        jenisKelamin: jk,
+        waliKelas: wali,
+        status: "Aktif"
+      };
+
+      if (isGoogleScript) {
+        showToast("Menyimpan siswa...", "info");
+        google.script.run
+          .withSuccessHandler(res => {
+            closeModalStudent();
+            showToast(res.message, res.success ? "success" : "error");
+            loadAdminData();
+          })
+          .withFailureHandler(err => showToast("Error: " + err.toString(), "error"))
+          .saveStudent(currentAdminAuth, studentData);
+      } else {
+        const db = getMockDb();
+        const existingIdx = db.students.findIndex(s => s.nisn === nisn);
+        if (existingIdx !== -1) {
+          db.students[existingIdx] = studentData;
+        } else {
+          db.students.push(studentData);
+        }
+        saveMockDb(db);
+        closeModalStudent();
+        showToast("Siswa berhasil disimpan!", "success");
+        loadAdminData();
+      }
+    }
+
+    function confirmDeleteStudent(nisn, nama) {
+      if (confirm(`Hapus siswa '${nama}' (NISN: ${nisn}) beserta seluruh nilainya?`)) {
+        if (isGoogleScript) {
+          google.script.run
+            .withSuccessHandler(res => {
+              showToast(res.message, res.success ? "success" : "error");
+              loadAdminData();
+            })
+            .withFailureHandler(err => showToast("Error: " + err.toString(), "error"))
+            .deleteStudent(currentAdminAuth, nisn);
+        } else {
+          const db = getMockDb();
+          db.students = db.students.filter(s => s.nisn !== nisn);
+          db.grades = db.grades.filter(g => g.nisn !== nisn);
+          saveMockDb(db);
+          showToast("Siswa berhasil dihapus!", "success");
+          loadAdminData();
+        }
+      }
+    }
+
+    // ==========================================
+    // TAB 3: INPUT NILAI MASSAL & LEGER KELAS
+    // ==========================================
+    let currentParsedMatrix = null;
+
+    function populateBatchClasses() {
+      const select = document.getElementById('batchSelectKelas');
+      if (!select) return;
+      const uniqueClasses = [...new Set(adminCacheData.students.map(s => s.kelas))].filter(Boolean).sort();
+      select.innerHTML = '';
+      uniqueClasses.forEach(c => {
+        select.innerHTML += `<option value="${escapeHtml(c)}">Kelas ${escapeHtml(c)}</option>`;
+      });
+      prepareBatchTable();
+    }
+
+    function prepareBatchTable() {
+      const select = document.getElementById('batchSelectKelas');
+      if (!select) return;
+      const kelas = select.value;
+      const mapelInp = document.getElementById('batchInputMapel');
+      const mapel = mapelInp ? mapelInp.value.trim() : "";
+      const tbody = document.getElementById('batchTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = "";
+
+      const classStudents = adminCacheData.students.filter(s => s.kelas === kelas);
+      if (classStudents.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="py-6 text-center text-slate-400">Belum ada siswa di kelas ini.</td></tr>`;
+        return;
+      }
+
+      classStudents.forEach((s, idx) => {
+        const existingGrade = adminCacheData.grades.find(g => g.nisn === s.nisn && (g.mapel || "").toLowerCase() === mapel.toLowerCase());
+        const defaultVal = existingGrade ? existingGrade.nilai : "";
+
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-50";
+        tr.innerHTML = `
+          <td class="py-3 px-3 text-center text-slate-500 font-medium">${idx + 1}</td>
+          <td class="py-3 px-3 font-mono font-medium text-slate-700">${escapeHtml(s.nisn)}</td>
+          <td class="py-3 px-4 font-semibold text-slate-900">${escapeHtml(s.nama)}</td>
+          <td class="py-2 px-3 text-center">
+            <input 
+              type="number" 
+              step="0.1"
+              data-nisn="${s.nisn}" 
+              value="${defaultVal}" 
+              placeholder="0-100" 
+              class="batch-score-input w-32 mx-auto px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg font-mono font-bold text-center focus:bg-white focus:ring-2 focus:ring-brand-500 focus:outline-none"
+            >
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function saveBatchGrades() {
+      const mapelInp = document.getElementById('batchInputMapel');
+      const mapel = mapelInp ? mapelInp.value.trim() : "";
+      const jenis = (document.getElementById('batchInputJenis')?.value || "").trim() || "Penilaian Akhir Semester (PAS)";
+      const inputs = document.querySelectorAll('.batch-score-input');
+      const gradesToSave = [];
+
+      inputs.forEach(inp => {
+        const nisn = inp.getAttribute('data-nisn');
+        const valStr = inp.value.trim();
+        if (valStr !== "") {
+          const valNum = parseFloat(valStr.replace(',', '.'));
+          if (!isNaN(valNum)) {
+            gradesToSave.push({
+              nisn: nisn,
+              mapel: mapel,
+              jenisAsesmen: jenis,
+              nilai: valNum
+            });
+          }
+        }
+      });
+
+      if (gradesToSave.length === 0) {
+        showToast("Belum ada nilai yang diinput.", "warning");
+        return;
+      }
+
+      if (isGoogleScript) {
+        showToast(`Menyimpan ${gradesToSave.length} nilai asesmen...`, "info");
+        google.script.run
+          .withSuccessHandler(res => {
+            showToast(res.message, res.success ? "success" : "error");
+            loadAdminData();
+          })
+          .withFailureHandler(err => showToast("Error: " + err.toString(), "error"))
+          .batchSaveGrades(currentAdminAuth, gradesToSave);
+      } else {
+        const db = getMockDb();
+        gradesToSave.forEach(item => {
+          const existingIdx = db.grades.findIndex(g => g.nisn === item.nisn && (g.mapel || "").toLowerCase() === item.mapel.toLowerCase());
+          if (existingIdx !== -1) {
+            db.grades[existingIdx] = { ...db.grades[existingIdx], ...item };
+          } else {
+            db.grades.push({
+              id: "NL-" + Date.now() + "-" + Math.floor(Math.random() * 100),
+              ...item
+            });
+          }
+        });
+        saveMockDb(db);
+        showToast(`Berhasil menyimpan ${gradesToSave.length} nilai asesmen!`, "success");
+        loadAdminData();
+      }
+    }
+
+    /**
+     * Parsing Otomatis Tabel Excel Leger yang di-Paste (Ctrl+V)
+     */
+    function parseMatrixPaste() {
+      const rawText = (document.getElementById('matrixPasteInput')?.value || "").trim();
+      const container = document.getElementById('matrixPreviewContainer');
+      const summaryEl = document.getElementById('matrixDetectedSummary');
+      const chipsEl = document.getElementById('matrixSubjectChips');
+      const thead = document.getElementById('matrixTableHead');
+      const tbody = document.getElementById('matrixTableBody');
+
+      if (!rawText) {
+        if (container) container.classList.add('hidden');
+        currentParsedMatrix = null;
+        return;
+      }
+
+      const lines = rawText.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+      if (lines.length < 2) {
+        if (container) container.classList.remove('hidden');
+        if (summaryEl) summaryEl.textContent = "Tabel terlalu pendek. Pastikan ada baris judul (header) dan minimal 1 baris siswa.";
+        currentParsedMatrix = null;
+        return;
+      }
+
+      // Deteksi Pemisah Kolom: Tab (\t) adalah standar Excel, fallback ke semicolon/koma
+      const firstLine = lines[0];
+      let sep = "\t";
+      if (firstLine.indexOf("\t") !== -1) {
+        sep = "\t";
+      } else if (firstLine.indexOf(";") !== -1) {
+        sep = ";";
+      } else if (firstLine.indexOf(",") !== -1) {
+        sep = ",";
+      }
+
+      const rawHeaders = firstLine.split(sep).map(c => c.trim().replace(/^["']|["']$/g, ''));
+
+      let colNisn = -1;
+      let colNama = -1;
+      let colKelas = -1;
+      const subjectCols = []; // array of { idx: number, name: string }
+
+      rawHeaders.forEach((h, idx) => {
+        const clean = h.toLowerCase().replace(/[\s_\.\-]+/g, "");
+        if (clean.indexOf("nisn") !== -1 && colNisn === -1) {
+          colNisn = idx;
+        } else if (clean.indexOf("wali") !== -1) {
+          // PENTING: Abaikan kolom wali agar tidak tertukar dengan nama siswa atau kelas
+        } else if ((clean.indexOf("nama") !== -1 || clean.indexOf("siswa") !== -1) && colNama === -1) {
+          colNama = idx;
+        } else if (
+          clean === "no" || clean === "nomor" || 
+          clean === "jk" || clean === "kelamin" || clean === "jeniskelamin" || 
+          clean === "ket" || clean === "keterangan" || clean === "status"
+        ) {
+          // Metadata tambahan yang diabaikan dari daftar mapel
+        } else if ((clean.indexOf("kelas") !== -1 || clean.indexOf("rombel") !== -1 || clean === "tingkat") && colKelas === -1) {
+          colKelas = idx;
+        } else if (h.length > 0) {
+          subjectCols.push({ idx: idx, name: h });
+        }
+      });
+
+      if (colNisn === -1) {
+        if (container) container.classList.remove('hidden');
+        if (summaryEl) summaryEl.textContent = "Kolom NISN tidak terdeteksi pada baris pertama. Pastikan ada kolom bernama 'NISN'.";
+        currentParsedMatrix = null;
+        return;
+      }
+
+      if (subjectCols.length === 0) {
+        if (container) container.classList.remove('hidden');
+        if (summaryEl) summaryEl.textContent = "Tidak ada kolom mata pelajaran yang terdeteksi di baris pertama.";
+        currentParsedMatrix = null;
+        return;
+      }
+
+      // Parsing Baris Data Siswa & Nilai
+      const parsedRows = [];
+      let totalScoresCount = 0;
+
+      for (let r = 1; r < lines.length; r++) {
+        const rowCells = lines[r].split(sep).map(c => c.trim().replace(/^["']|["']$/g, ''));
+        const nisn = (rowCells[colNisn] || "").trim();
+        if (!nisn) continue;
+
+        const nama = colNama !== -1 && rowCells[colNama] ? rowCells[colNama].trim() : ("Siswa " + nisn);
+        let kelas = colKelas !== -1 && rowCells[colKelas] ? rowCells[colKelas].trim() : "8-A";
+        if (isLikelyTeacherName(kelas)) kelas = "8-A";
+
+        const scores = {};
+        subjectCols.forEach(sc => {
+          const rawScore = rowCells[sc.idx];
+          if (rawScore !== undefined && rawScore !== "" && rawScore !== null) {
+            const num = parseFloat(String(rawScore).replace(',', '.'));
+            if (!isNaN(num)) {
+              scores[sc.name] = num;
+              totalScoresCount++;
+            }
+          }
+        });
+
+        parsedRows.push({
+          nisn: nisn,
+          nama: nama,
+          kelas: kelas,
+          scores: scores
+        });
+      }
+
+      currentParsedMatrix = {
+        jenisAsesmen: (document.getElementById('matrixJenisAsesmen')?.value || "").trim() || "Penilaian Akhir Semester (PAS)",
+        subjects: subjectCols.map(s => s.name),
+        rows: parsedRows
+      };
+
+      // Tampilkan Hasil Deteksi
+      if (summaryEl) {
+        summaryEl.innerHTML = `Terdeteksi: <b class="text-emerald-800">${parsedRows.length} Siswa</b> | <b class="text-emerald-800">${subjectCols.length} Mata Pelajaran</b> | Total <b class="text-emerald-800">${totalScoresCount} Nilai Asesmen</b> siap disimpan!`;
+      }
+
+      if (chipsEl) {
+        chipsEl.innerHTML = subjectCols.map(s => `
+          <span class="px-2 py-0.5 bg-indigo-100 text-indigo-800 border border-indigo-200 rounded-md text-[10px] font-semibold">
+            ${escapeHtml(s.name)}
+          </span>
+        `).join('');
+      }
+
+      // Render Header Tabel Preview
+      if (thead) {
+        let thHtml = `<tr>
+          <th class="py-2.5 px-3 text-center w-12 border-b border-slate-200">No</th>
+          <th class="py-2.5 px-3 border-b border-slate-200">NISN</th>
+          <th class="py-2.5 px-3 border-b border-slate-200">Nama Siswa</th>
+          <th class="py-2.5 px-3 border-b border-slate-200">Kelas</th>
+        `;
+        subjectCols.forEach(sc => {
+          thHtml += `<th class="py-2.5 px-3 text-center border-b border-slate-200 bg-indigo-50/50">${escapeHtml(sc.name)}</th>`;
+        });
+        thHtml += `</tr>`;
+        thead.innerHTML = thHtml;
+      }
+
+      // Render Baris Tabel Preview
+      if (tbody) {
+        let tbodyHtml = "";
+        parsedRows.forEach((row, idx) => {
+          tbodyHtml += `<tr class="hover:bg-slate-50 transition border-b border-slate-100">
+            <td class="py-2 px-3 text-center text-slate-500 text-xs">${idx + 1}</td>
+            <td class="py-2 px-3 font-mono font-medium text-slate-800 text-xs">${escapeHtml(row.nisn)}</td>
+            <td class="py-2 px-3 font-semibold text-slate-900 text-xs">${escapeHtml(row.nama)}</td>
+            <td class="py-2 px-3 text-slate-600 text-xs">${escapeHtml(row.kelas)}</td>
+          `;
+          subjectCols.forEach(sc => {
+            const val = row.scores[sc.name];
+            const displayVal = (val !== undefined && val !== null) ? val : '<span class="text-slate-300">-</span>';
+            tbodyHtml += `<td class="py-2 px-3 text-center font-bold text-xs text-brand-700 bg-indigo-50/20">${displayVal}</td>`;
+          });
+          tbodyHtml += `</tr>`;
+        });
+        tbody.innerHTML = tbodyHtml;
+      }
+
+      const btnSaveText = document.getElementById('btnSaveMatrixText');
+      if (btnSaveText) {
+        btnSaveText.textContent = `Simpan Semua Nilai (${parsedRows.length} Siswa)`;
+      }
+
+      if (container) container.classList.remove('hidden');
+    }
+
+    /**
+     * Menyimpan Matriks Leger Sekelas ke Database
+     */
+    function submitMatrixGrades() {
+      if (!currentParsedMatrix || !currentParsedMatrix.rows || currentParsedMatrix.rows.length === 0) {
+        showToast("Belum ada data tabel yang terdeteksi untuk disimpan.", "warning");
+        return;
+      }
+
+      const jenis = (document.getElementById('matrixJenisAsesmen')?.value || "").trim() || "Penilaian Akhir Semester (PAS)";
+      currentParsedMatrix.jenisAsesmen = jenis;
+
+      const btn = document.getElementById('btnSaveMatrix');
+      const btnText = document.getElementById('btnSaveMatrixText');
+      if (btn) btn.disabled = true;
+      if (btnText) btnText.textContent = "Menyimpan ke Database...";
+
+      if (isGoogleScript) {
+        showToast(`Menyimpan nilai matriks untuk ${currentParsedMatrix.rows.length} siswa...`, "info");
+        google.script.run
+          .withSuccessHandler(res => {
+            if (btn) btn.disabled = false;
+            if (btnText) btnText.textContent = "Simpan Semua Nilai Kelas Ini";
+            showToast(res.message, res.success ? "success" : "error");
+            if (res.success) {
+              clearMatrixInput();
+              loadAdminData();
+            }
+          })
+          .withFailureHandler(err => {
+            if (btn) btn.disabled = false;
+            if (btnText) btnText.textContent = "Simpan Semua Nilai Kelas Ini";
+            showToast("Error: " + err.toString(), "error");
+          })
+          .saveLegerMatrix(currentAdminAuth, currentParsedMatrix);
+      } else {
+        // Mode Mock Database Lokal Browser
+        const db = getMockDb();
+        let addedStudents = 0;
+        let savedGradesCount = 0;
+
+        currentParsedMatrix.rows.forEach(r => {
+          // Auto-register siswa jika belum ada
+          const sIdx = db.students.findIndex(s => s.nisn === r.nisn);
+          if (sIdx === -1) {
+            db.students.push({
+              nisn: r.nisn,
+              nama: r.nama,
+              kelas: r.kelas,
+              jenisKelamin: "L",
+              waliKelas: "",
+              status: "Aktif"
+            });
+            addedStudents++;
+          }
+
+          // Simpan nilai untuk tiap mapel
+          for (const mapelName in r.scores) {
+            if (r.scores.hasOwnProperty(mapelName)) {
+              const val = r.scores[mapelName];
+              const gIdx = db.grades.findIndex(g => g.nisn === r.nisn && (g.mapel || "").toLowerCase() === mapelName.toLowerCase());
+              if (gIdx !== -1) {
+                db.grades[gIdx].nilai = val;
+                db.grades[gIdx].jenisAsesmen = jenis;
+              } else {
+                db.grades.push({
+                  id: "NL-" + Date.now() + "-" + Math.floor(Math.random() * 1000),
+                  nisn: r.nisn,
+                  mapel: mapelName,
+                  jenisAsesmen: jenis,
+                  nilai: val
+                });
+              }
+              savedGradesCount++;
+            }
+          }
+        });
+
+        saveMockDb(db);
+        if (btn) btn.disabled = false;
+        if (btnText) btnText.textContent = "Simpan Semua Nilai Kelas Ini";
+        showToast(`Sukses! ${currentParsedMatrix.rows.length} siswa dan ${savedGradesCount} nilai asesmen berhasil disimpan!`, "success");
+        clearMatrixInput();
+        loadAdminData();
+      }
+    }
+
+    /**
+     * Pemicu Sinkronisasi dari Sheet Leger_Nilai Spreadsheet
+     */
+    function triggerSyncFromLeger() {
+      const btn = document.getElementById('btnSyncLegerSheet');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<span>⏳</span><span>Menyinkronkan...</span>`;
+      }
+
+      if (isGoogleScript) {
+        showToast("Memulai sinkronisasi dari sheet 'Leger_Nilai'...", "info");
+        google.script.run
+          .withSuccessHandler(res => {
+            if (btn) {
+              btn.disabled = false;
+              btn.innerHTML = `<span>🔄</span><span>Sinkronkan Sheet 'Leger_Nilai'</span>`;
+            }
+            showToast(res.message, res.success ? "success" : "error");
+            if (res.success) {
+              loadAdminData();
+            }
+          })
+          .withFailureHandler(err => {
+            if (btn) {
+              btn.disabled = false;
+              btn.innerHTML = `<span>🔄</span><span>Sinkronkan Sheet 'Leger_Nilai'</span>`;
+            }
+            showToast("Error sinkronisasi: " + err.toString(), "error");
+          })
+          .syncLegerData(currentAdminAuth);
+      } else {
+        // Mode Mock: Beri simulasi sinkronisasi
+        setTimeout(() => {
+          if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = `<span>🔄</span><span>Sinkronkan Sheet 'Leger_Nilai'</span>`;
+          }
+          showToast("Sukses sinkronisasi: Data dari Leger_Nilai berhasil disinkronkan ke sistem!", "success");
+          loadAdminData();
+        }, 600);
+      }
+    }
+
+    /**
+     * Memasukkan Contoh Format TSV Matriks ke Kotak Paste
+     */
+    function fillSampleMatrixData() {
+      const sample = [
+        "NISN\tNama_Siswa\tKelas\tPAI\tPendidikan Pancasila\tBahasa Indonesia\tBahasa Inggris\tIPS\tMatematika\tIPA\tPJOK\tSeni Budaya\tInformatika\tBahasa Jawa",
+        "0081234567\tAhmad Fauzan Pratama\t8-A\t88\t82\t85\t86\t84\t78\t80\t85\t83\t90\t88",
+        "0082345678\tSiti Aisyah Rahmawati\t8-A\t92\t86\t90\t94\t87\t95\t89\t88\t85\t96\t91",
+        "0083456789\tMuhammad Rizky Kurniawan\t8-B\t85\t80\t82\t84\t80\t75\t82\t86\t80\t88\t85",
+        "0084567890\tCantika Putri Maharani\t8-B\t86\t84\t88\t90\t85\t82\t85\t87\t86\t92\t89",
+        "0085678901\tDimas Arya Wicaksana\t9-A\t84\t82\t85\t85\t83\t80\t82\t84\t82\t88\t86"
+      ].join("\n");
+
+      const inp = document.getElementById('matrixPasteInput');
+      if (inp) {
+        inp.value = sample;
+        parseMatrixPaste();
+        showToast("Contoh tabel Excel leger sekelas berhasil dimasukkan!", "info");
+      }
+    }
+
+    /**
+     * Membersihkan Kotak Paste Matriks
+     */
+    function clearMatrixInput() {
+      const inp = document.getElementById('matrixPasteInput');
+      if (inp) inp.value = "";
+      const container = document.getElementById('matrixPreviewContainer');
+      if (container) container.classList.add('hidden');
+      currentParsedMatrix = null;
+    }
+
+    // ==========================================
+    // TAB 4: KELOLA MEDIA (VALIDASI AMAN)
+    // ==========================================
+    function renderAdminMediaTab() {
+      const mediaList = adminCacheData.media || [];
+      const mediaMap = {};
+      mediaList.forEach(m => mediaMap[m.key] = m);
+
+      renderMediaItemPreview('adminPrevLogoPemkot', 'adminPhLogoPemkot', mediaMap['LOGO_PEMKOT']?.mediaData);
+      renderMediaItemPreview('adminPrevLogoSekolah', 'adminPhLogoSekolah', mediaMap['LOGO_SEKOLAH']?.mediaData);
+      renderMediaItemPreview('adminPrevTtdKepsek', 'adminPhTtdKepsek', mediaMap['TTD_KEPSEK']?.mediaData);
+    }
+
+    function renderMediaItemPreview(imgId, phId, dataUrl) {
+      const img = document.getElementById(imgId);
+      const ph = document.getElementById(phId);
+      if (!img || !ph) return;
+      if (dataUrl) {
+        img.src = dataUrl;
+        img.classList.remove('hidden');
+        ph.classList.add('hidden');
+      } else {
+        img.src = "";
+        img.classList.add('hidden');
+        ph.classList.remove('hidden');
+      }
+    }
+
+    function compressImageFile(file, maxWidth, maxHeight, callback) {
+      // Keamanan: Validasi tipe file di sisi klien
+      if (!file.type.match(/^image\/(png|jpeg|jpg|webp)$/)) {
+        showToast("Hanya file gambar (PNG/JPEG/WEBP) yang diperbolehkan.", "error");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          let w = img.width;
+          let h = img.height;
+          if (w > maxWidth || h > maxHeight) {
+            if (w / maxWidth > h / maxHeight) {
+              h = Math.round(h * (maxWidth / w));
+              w = maxWidth;
+            } else {
+              w = Math.round(w * (maxHeight / h));
+              h = maxHeight;
+            }
+          }
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, w, h);
+          const dataUrl = canvas.toDataURL('image/png', 0.85);
+          callback(dataUrl);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleAdminFileUpload(key, inputEl, label, kategori) {
+      if (!inputEl.files || !inputEl.files[0]) return;
+      const file = inputEl.files[0];
+      
+      showToast(`Mengompres ${label}...`, "info");
+      const maxDim = (kategori === 'stempel' || kategori === 'ttd' || kategori === 'ttd_wali') ? 220 : 200;
+
+      compressImageFile(file, maxDim, maxDim, function(dataUrl) {
+        if (isGoogleScript) {
+          showToast(`Mengunggah ${label}...`, "info");
+          google.script.run
+            .withSuccessHandler(res => {
+              showToast(res.message, res.success ? "success" : "error");
+              loadAdminData();
+              loadInitialSchoolConfig();
+            })
+            .withFailureHandler(err => showToast("Error: " + err.toString(), "error"))
+            .saveMediaAsset(currentAdminAuth, key, dataUrl, label, kategori);
+        } else {
+          const db = getMockDb();
+          if (!db.media) db.media = [];
+          const idx = db.media.findIndex(m => m.key === key);
+          const item = { key: key, kategori: kategori, label: label, mediaData: dataUrl, updateAt: new Date().toISOString() };
+          if (idx !== -1) db.media[idx] = item;
+          else db.media.push(item);
+          saveMockDb(db);
+          showToast(`${label} berhasil diupload!`, "success");
+          loadAdminData();
+          loadInitialSchoolConfig();
+        }
+      });
+
+      inputEl.value = "";
+    }
+
+    function handleAdminDeleteMedia(key) {
+      if (confirm(`Yakin ingin menghapus media '${key}'?`)) {
+        if (isGoogleScript) {
+          showToast("Menghapus media...", "info");
+          google.script.run
+            .withSuccessHandler(res => {
+              showToast(res.message, res.success ? "success" : "error");
+              loadAdminData();
+              loadInitialSchoolConfig();
+            })
+            .withFailureHandler(err => showToast("Error: " + err.toString(), "error"))
+            .deleteMediaAsset(currentAdminAuth, key);
+        } else {
+          const db = getMockDb();
+          if (db.media) {
+            db.media = db.media.filter(m => m.key !== key);
+            saveMockDb(db);
+          }
+          showToast("Aset berhasil dihapus!", "success");
+          loadAdminData();
+          loadInitialSchoolConfig();
+        }
+      }
+    }
+
+    // ==========================================
+    // TAB 5: PENGATURAN SEKOLAH
+    // ==========================================
+    function fillConfigForm() {
+      const cfg = adminCacheData.config || {};
+      let cleanTelp = cfg.TELP_SEKOLAH || cfg.TELPON_SEKOLAH || cfg.TELEPON_SEKOLAH || cfg.NO_TELP || "";
+      if (typeof cleanTelp === 'string') {
+        if (cleanTelp.startsWith("'")) cleanTelp = cleanTelp.substring(1).trim();
+        if (/^#(ERROR|NAME|REF|VALUE|N\/A)\b/i.test(cleanTelp) || cleanTelp.toLowerCase() === "undefined" || cleanTelp.toLowerCase() === "null") {
+          cleanTelp = "";
+        }
+      }
+      document.getElementById('cfgPemda').value = cfg.PEMERINTAH_DAERAH || "PEMERINTAH DAERAH / DINAS PENDIDIKAN";
+      document.getElementById('cfgNamaSekolah').value = cfg.NAMA_SEKOLAH || "";
+      document.getElementById('cfgAlamatSekolah').value = cfg.ALAMAT_SEKOLAH || "";
+      document.getElementById('cfgTelpSekolah').value = cleanTelp;
+      document.getElementById('cfgTahunAjaran').value = cfg.TAHUN_AJARAN || "2025/2026";
+      document.getElementById('cfgSemester').value = cfg.SEMESTER || "Ganjil";
+      document.getElementById('cfgJenisUlangan').value = cfg.JENIS_ULANGAN_AKTIF || cfg.JENIS_ASESMEN_AKTIF || "Penilaian Akhir Semester (PAS)";
+      document.getElementById('cfgKotaTerbit').value = cfg.KOTA_TERBIT || "Jakarta";
+      document.getElementById('cfgTglRapor').value = cfg.TANGGAL_BAGI_RAPOR || "18 Desember 2025";
+      document.getElementById('cfgNamaKepsek').value = cfg.NAMA_KEPALA_SEKOLAH || "";
+      document.getElementById('cfgNipKepsek').value = cfg.NIP_KEPALA_SEKOLAH || "";
+      document.getElementById('cfgPesan').value = cfg.PESAN_PENGUMUMAN || "";
+      document.getElementById('cfgPasswordAdmin').value = "";
+
+      if (!isNativeGas) {
+        const sec = document.getElementById('sectionGasConfigTab');
+        if (sec) sec.classList.remove('hidden');
+        const inp = document.getElementById('cfgGasApiUrl');
+        if (inp) inp.value = getActiveGasUrl();
+      }
+    }
+
+    function saveSchoolConfig() {
+      const newConfig = {
+        PEMERINTAH_DAERAH: document.getElementById('cfgPemda').value.trim(),
+        NAMA_SEKOLAH: document.getElementById('cfgNamaSekolah').value.trim(),
+        ALAMAT_SEKOLAH: document.getElementById('cfgAlamatSekolah').value.trim(),
+        TELP_SEKOLAH: document.getElementById('cfgTelpSekolah').value.trim(),
+        TAHUN_AJARAN: document.getElementById('cfgTahunAjaran').value.trim(),
+        SEMESTER: document.getElementById('cfgSemester').value.trim(),
+        JENIS_ULANGAN_AKTIF: document.getElementById('cfgJenisUlangan').value.trim(),
+        JENIS_ASESMEN_AKTIF: document.getElementById('cfgJenisUlangan').value.trim(),
+        KOTA_TERBIT: document.getElementById('cfgKotaTerbit').value.trim(),
+        TANGGAL_BAGI_RAPOR: document.getElementById('cfgTglRapor').value.trim(),
+        NAMA_KEPALA_SEKOLAH: document.getElementById('cfgNamaKepsek').value.trim(),
+        NIP_KEPALA_SEKOLAH: document.getElementById('cfgNipKepsek').value.trim(),
+        PESAN_PENGUMUMAN: document.getElementById('cfgPesan').value.trim(),
+      };
+
+      const newPass = document.getElementById('cfgPasswordAdmin').value.trim();
+      if (newPass) {
+        newConfig.PASSWORD_ADMIN = newPass;
+      }
+
+      if (isGoogleScript) {
+        showToast("Menyimpan pengaturan...", "info");
+        google.script.run
+          .withSuccessHandler(res => {
+            showToast(res.message, res.success ? "success" : "error");
+            loadAdminData();
+            loadInitialSchoolConfig();
+          })
+          .withFailureHandler(err => showToast("Error: " + err.toString(), "error"))
+          .updateSchoolConfig(currentAdminAuth, newConfig);
+      } else {
+        const db = getMockDb();
+        db.config = { ...db.config, ...newConfig };
+        saveMockDb(db);
+        showToast("Pengaturan berhasil disimpan!", "success");
+        loadAdminData();
+        applySchoolConfig(db.config, globalMediaAssets);
+      }
+    }
+
+    // ==========================================
+    // UTILS & KEAMANAN XSS
+    // ==========================================
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    // Sanitasi XSS Menyeluruh
+    function escapeHtml(text) {
+      if (text === null || text === undefined) return "";
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    let toastTimer = null;
+    function showToast(message, type = "info") {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMessage');
+      const toastIcon = document.getElementById('toastIcon');
+
+      toastMsg.textContent = message;
+      if (type === "success") {
+        toastIcon.textContent = "✓";
+        toastIcon.className = "text-emerald-400 font-bold";
+      } else if (type === "error" || type === "warning") {
+        toastIcon.textContent = "!";
+        toastIcon.className = "text-amber-400 font-bold";
+      } else {
+        toastIcon.textContent = "ℹ";
+        toastIcon.className = "text-sky-400 font-bold";
+      }
+
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3500);
+    }
+  </script>
+</body>
+</html>

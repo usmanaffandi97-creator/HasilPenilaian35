@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "name": "portal-asesmen-smp",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/Index.html" },
+    { "source": "/index.html", "destination": "/Index.html" },
+    { "source": "/(.*)", "destination": "/Index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "ALLOWALL" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    }
+  ]
+}
